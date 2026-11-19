@@ -22,7 +22,7 @@
 - **Alcance:** terminar el proyecto completo, sin plan de entregas MVP; módulos/fases sirven solo para ordenar trabajo.
 - **Reglas:** conservar las del sistema anterior, incluidas las excepciones operativas documentadas y sus permisos.
 - **Presupuesto:** $0 mensuales. Blaze admisible dentro de cuotas sin costo; no autorización para cargos ni garantía de suficiencia. Hosting, backend y controles de consumo aún deben validarse.
-- **Uso simultáneo estimado (2026-11-12):** aproximadamente hasta 50 administradores/coordinadores conectados a la vez. Respuesta del usuario: «Aprox no mas de 50». No equivale al total de cuentas ni a una medición de operaciones; no demuestra suficiencia de cuotas gratuitas.
+- **Uso estimado vigente:** aproximadamente 30 usuarios totales, 6 simultáneos habitualmente y picos poco frecuentes de 10–20 simultáneos. Sustituye la estimación de hasta 50 simultáneos del 2026-11-12. No mide operaciones ni demuestra suficiencia de cuotas gratuitas.
 
 ## Current Status
 

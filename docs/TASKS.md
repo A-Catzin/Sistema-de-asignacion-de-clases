@@ -18,14 +18,16 @@ Los entregables terminados son **la base documental T00 y la selección de Fires
 
 Fuentes: [PRD](PRD.md), [arquitectura](ARCHITECTURE.md), [plan de origen](../Migracion/04_PLAN_TRANSICION.md). Cada tarea incluye su dependencia en notas. Los criterios de aceptación de fases son controles de salida, no capacidades ya implementadas.
 
+Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraciones](MVP.md). Agrupa estas tareas sin reemplazar sus estados ni convertir los hitos en lanzamientos a producción.
+
 ## Fase 0 — Base documental y definición
 
 | ID | Tarea | Prioridad | Estado | Notas / Entregable |
 |---|---|---|---|---|
 | T00 | Analizar referencia y crear suite modular | Alta | Completed | Seis documentos en `docs/`; distinción observado/propuesto/pendiente, enlaces y consistencia estructural revisados. Sin pruebas de runtime |
-| T01 | Validar casos de aceptación del alcance completo | Alta | In Progress | Dep. T00. [Matriz de 40 casos](ACCEPTANCE.md) para F01–F12 contrastada con SQL/acciones; revisión estructural, sin ejecución destino. Faltan detalle por operación/rol y validación de recorridos; no equivale a aceptación institucional ni recorta el alcance a un MVP |
-| T02 | Acordar restricciones y responsables | Alta | Not Started | Dep. T01. Presupuesto $0 y estimación de hasta unas 50 personas simultáneas confirmados; faltan frecuencia de operaciones y volumen para estimar cuota por servicio y margen. Faltan calendario, dispositivos, zona horaria, SLO/RPO/RTO y responsables de aprobación |
-| T03 | Especificar reglas preservadas y revisar privacidad del paquete | Alta | Not Started | Dep. T01. Reglas anteriores confirmadas, incluidas reducción de horas y borrado autorizado. Precisar casos/pruebas; revisar activos y derechos antes de publicarlos; no importar la hoja anterior |
+| T01 | Validar casos de aceptación del alcance completo | Alta | In Progress | Dep. T00. [Matriz de 40 casos](ACCEPTANCE.md) para F01–F12, sin ejecución destino. Se ratificaron los recorridos documentados y el cambio de docente por coordinación en borrador o revisión de su carrera (AC19). Falta cerrar la matriz por operación/rol; no equivale a aceptación institucional. |
+| T02 | Acordar restricciones y responsables | Alta | Not Started | Dep. T01. Presupuesto $0, zona horaria de Cancún y aproximadamente 30 usuarios totales, 6 simultáneos habitualmente y picos poco frecuentes de 10–20 simultáneos. Volumen estimado: 1 000–1 300 grupos activos por ciclo. Mayor actividad esperada en noviembre, febrero o marzo, y agosto o septiembre; la carga y los ajustes de horarios se concentran en aproximadamente una semana por período. El solicitante dará el visto bueno del MVP interno o comunicará los ajustes tras la junta de presentación. Pruebas del MVP en computadora como prioridad y también en celular. Faltan fechas exactas, frecuencia de operaciones, volumen de asignaciones, navegadores, SLO/RPO/RTO y responsables de aprobación de producción. |
+| T03 | Especificar reglas preservadas y revisar privacidad del paquete | Alta | Not Started | Dep. T01. Administrador con lectura de todos los datos operativos. Coordinación solo en su ámbito: carreras no compartidas y docentes potencialmente compartidos con carga total y desglose de horas por coordinador visibles (AC31), sin acceso a grupos ni asignaciones individuales de otra carrera (AC04). Excepciones confirmadas: coordinación puede reducir horas planeadas en su ámbito (AC22); solo administración puede borrar físicamente un grupo no ligado a cohorte activa (AC26). Revisar activos antes de publicarlos; no importar la hoja anterior. |
 
 **Salida:** alcance completo confirmado, detalles operativos cuantificables y excepciones documentadas. No publicar contenidos de `/Migracion` para conseguir esta aprobación.
 
@@ -113,6 +115,8 @@ T22 puede adelantarse con responsables de captura y no requiere esperar toda la 
 **Siguiente acción recomendada:** concretar T01–T03 y diseñar el modelo Firestore en T05 a partir de las reglas conocidas. La base ya está elegida; no reabrir SQL. No iniciar copia masiva ni crear recursos facturables antes de validar integridad y costos.
 
 ## Criterio de actualización
+
+**Dimensionamiento de T02:** el ejemplo de horario entre semana contiene 5 materias y 13 bloques semanales. En sabatino se reportaron grupos con 2 o 3 materias, con variación. Los módulos sabatinos 1 y 2 se definen por fechas específicas del mismo cuatrimestre; se difirió decidir si esas fechas son comunes o varían por carrera o grupo. Retomar esa decisión al diseñar el calendario de T14; véase [SRS](SRS.md), PD-06.
 
 - Una tarea solo pasa a Completed cuando tiene entregable y checks observados; registrar referencia de cambio y resultado en notas.
 - Actualizar los cuatro conteos y los porcentajes cuando cambie un estado.

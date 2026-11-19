@@ -81,7 +81,7 @@ No fijar fechas, disponibilidad, capacidad de usuarios ni ahorro porcentual sin 
 | Coordinador (`coordinator`) | Personal académico que administra carreras y docentes vinculados | Preparar grupos, materias, asignaciones, horarios y reportes | Cuenta activa y relaciones autorizadas; evaluar turno/modalidad cuando corresponda |
 | Docente como entidad | Persona a quien se asignan clases y carga | Ser seleccionado según perfiles y horas | No hay evidencia de cuenta o portal docente independiente |
 
-**Uso simultáneo estimado:** aproximadamente hasta 50 administradores/coordinadores, confirmado por el usuario el 2026-11-12 («Aprox no mas de 50»). Es una estimación para dimensionamiento, no un límite de acceso implementado ni el total de cuentas. Faltan frecuencia de consultas/cambios, duración de sesiones y volúmenes de datos para estimar consumo; esta cifra no demuestra cumplimiento del presupuesto $0.
+**Uso estimado:** aproximadamente 30 usuarios totales, con 6 conectados simultáneamente en condiciones habituales y picos poco frecuentes de 10–20 simultáneos. Esta estimación sustituye la preliminar de hasta 50 simultáneos y no establece un límite de acceso. Faltan frecuencia de consultas/cambios, duración de sesiones y volúmenes de datos para estimar consumo; esta cifra no demuestra cumplimiento del presupuesto $0.
 
 Demografía, total de cuentas, conectividad, dispositivos y necesidades específicas de accesibilidad: **no disponibles**. No inferir edad, experiencia digital ni distribución geográfica a partir de activos institucionales.
 
