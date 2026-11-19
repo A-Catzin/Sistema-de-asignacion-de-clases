@@ -2,13 +2,13 @@
 
 ![Estado: preparación](https://img.shields.io/badge/estado-preparación-blue) ![Migración implementada: 0%](https://img.shields.io/badge/migración_implementada-0%25-lightgrey)
 
-| Métrica | Valor al 2026-11-11 |
+| Métrica | Valor al 2026-11-12 |
 |---|---|
-| Versión documental | 1.1.0 |
+| Versión documental | 1.2.0 |
 | Total de tareas | 30 |
 | Completed | 2 |
-| In Progress | 0 |
-| Not Started | 28 |
+| In Progress | 1 |
+| Not Started | 27 |
 | Avance por conteo del plan completo | 2/30 = 6,7% |
 | Implementación de aplicación destino | 0%: no existe código Firebase ejecutable |
 
@@ -23,8 +23,8 @@ Fuentes: [PRD](PRD.md), [arquitectura](ARCHITECTURE.md), [plan de origen](../Mig
 | ID | Tarea | Prioridad | Estado | Notas / Entregable |
 |---|---|---|---|---|
 | T00 | Analizar referencia y crear suite modular | Alta | Completed | Seis documentos en `docs/`; distinción observado/propuesto/pendiente, enlaces y consistencia estructural revisados. Sin pruebas de runtime |
-| T01 | Validar casos de aceptación del alcance completo | Alta | Not Started | Dep. T00. Matriz por función/rol del sistema anterior; confirmar detalles operativos sin recortar módulos a un MVP |
-| T02 | Acordar restricciones y responsables | Alta | Not Started | Dep. T01. Presupuesto $0 confirmado; estimar usuarios/operaciones, cuota por servicio y margen. Faltan calendario, dispositivos, zona horaria, SLO/RPO/RTO y responsables de aprobación |
+| T01 | Validar casos de aceptación del alcance completo | Alta | In Progress | Dep. T00. [Matriz de 40 casos](ACCEPTANCE.md) para F01–F12 contrastada con SQL/acciones; revisión estructural, sin ejecución destino. Faltan detalle por operación/rol y validación de recorridos; no equivale a aceptación institucional ni recorta el alcance a un MVP |
+| T02 | Acordar restricciones y responsables | Alta | Not Started | Dep. T01. Presupuesto $0 y estimación de hasta unas 50 personas simultáneas confirmados; faltan frecuencia de operaciones y volumen para estimar cuota por servicio y margen. Faltan calendario, dispositivos, zona horaria, SLO/RPO/RTO y responsables de aprobación |
 | T03 | Especificar reglas preservadas y revisar privacidad del paquete | Alta | Not Started | Dep. T01. Reglas anteriores confirmadas, incluidas reducción de horas y borrado autorizado. Precisar casos/pruebas; revisar activos y derechos antes de publicarlos; no importar la hoja anterior |
 
 **Salida:** alcance completo confirmado, detalles operativos cuantificables y excepciones documentadas. No publicar contenidos de `/Migracion` para conseguir esta aprobación.

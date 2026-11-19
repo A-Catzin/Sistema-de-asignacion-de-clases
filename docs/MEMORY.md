@@ -6,14 +6,14 @@
 
 | Campo | Estado al cierre de esta entrega |
 |---|---|
-| Última actualización | 2026-11-11 |
-| Versión documental | 1.1.0 |
+| Última actualización | 2026-11-12 |
+| Versión documental | 1.2.0 |
 | Fase actual | Descubrimiento y definición de arquitectura |
-| Estado general | Firestore confirmado; diseño y prueba de integridad/costos pendientes |
+| Estado general | Firestore confirmado; matriz de aceptación en preparación; diseño y prueba de integridad/costos pendientes |
 | Progreso del plan por tareas | 2/30 = 6,7%; documentación y selección de base, no esfuerzo |
 | Implementación destino | 0%; ninguna funcionalidad Firebase comprobada |
 | Sprint activo | No se encontró sprint formal ni responsables/fechas asignados |
-| Fuente de progreso | [TASKS](TASKS.md): 2 Completed, 0 In Progress, 28 Not Started |
+| Fuente de progreso | [TASKS](TASKS.md): 2 Completed, 1 In Progress, 27 Not Started |
 
 ## Decisiones confirmadas por el usuario
 
@@ -22,8 +22,24 @@
 - **Alcance:** terminar el proyecto completo, sin plan de entregas MVP; módulos/fases sirven solo para ordenar trabajo.
 - **Reglas:** conservar las del sistema anterior, incluidas las excepciones operativas documentadas y sus permisos.
 - **Presupuesto:** $0 mensuales. Blaze admisible dentro de cuotas sin costo; no autorización para cargos ni garantía de suficiencia. Hosting, backend y controles de consumo aún deben validarse.
+- **Uso simultáneo estimado (2026-11-12):** aproximadamente hasta 50 administradores/coordinadores conectados a la vez. Respuesta del usuario: «Aprox no mas de 50». No equivale al total de cuentas ni a una medición de operaciones; no demuestra suficiencia de cuotas gratuitas.
 
 ## Current Status
+
+### Convención de limpieza del repositorio — 2026-11-12
+
+- Al crear o detectar carpetas locales autogeneradas, desechables y reproducibles (por ejemplo, `.codegraph/`), agregarlas automáticamente a `.gitignore`, sin solicitar confirmación en cada ocasión.
+- Verificar primero su contenido y propósito: no excluir código fuente, migraciones, configuración necesaria ni documentación por el solo hecho de ser generados.
+- Usar patrones específicos y conservar las reglas existentes. No eliminar archivos ni retirar contenido ya versionado del índice sin autorización; `.gitignore` no deja de versionar archivos existentes.
+- Esta es una regla de trabajo para las siguientes intervenciones, no un proceso de vigilancia en segundo plano. `.codegraph/` ya estaba incluido en el cambio local de `.gitignore` al verificar esta solicitud.
+
+### Preparación de aceptación — 2026-11-12
+
+- [ACCEPTANCE](ACCEPTANCE.md) contiene 40 casos de F01–F12, con fuentes y separación entre paridad, requisitos destino y pendientes. T01 está `In Progress`, no completada; ningún caso se ejecutó en Firebase.
+- Hallazgos estáticos del validador vigente: carga docente y conflictos no se particionan por ciclo; ausencia de módulo se representa como `0`, no `null`; solo módulos positivos distintos evitan comparación de cruces. Detalle y fuentes en AC10–AC21.
+- Borrado físico de grupos: solo admin y no si el grupo está ligado a una cohorte activa (AC26). No ampliar esta excepción a coordinadores.
+- El CSV anterior devuelve encabezados sin sesión; la denegación explícita del destino es un requisito del PRD, no paridad demostrada por ese endpoint (AC35).
+- Verificación de esta preparación: fuentes locales, cobertura documental F01–F12 y coherencia de estados; sin runner destino, pruebas ejecutables, recursos remotos ni garantías de costo. T05 sigue pendiente.
 
 ### Qué está disponible
 
@@ -47,7 +63,7 @@ Se contrastaron las capacidades relevantes de Firebase con documentación oficia
 
 ## In Progress / Current Sprint
 
-No hay implementación activa confirmada. Prioridad recomendada para la próxima sesión:
+T01 tiene preparación documental activa; no hay implementación ejecutable del destino. Prioridad de continuidad:
 
 | Orden | Tareas | Resultado esperado |
 |---|---|---|
@@ -128,4 +144,4 @@ Posteriormente permitió el otro plan («A ya vi si puedo usar el otro plan»), 
 3. Si empieza implementación, validar T01–T05; no asumir que documentos propuestos equivalen a decisiones aceptadas.
 4. Actualizar TASKS y MEMORY con pruebas observadas y fecha, manteniendo separados progreso documental e implementación.
 
-Esta memoria versionable vive en el repositorio. La escritura a memoria externa Engram encontró un rechazo de contexto de proyecto en esta sesión; no se considera persistida allí. La suite local sigue siendo la referencia recuperable.
+Esta memoria versionable vive en el repositorio. El rechazo inicial de escritura en Engram se resolvió el 2026-11-12 al crear `.engram/config.json` mediante `engram init sistema-de-asignacion-de-clases`. El guardado confirmó las observaciones 1005–1009: configuración del proyecto, limpieza del repositorio, estimación de uso, alcance/estado y recomendación arquitectónica (todavía no aprobada). Esta configuración es necesaria y no debe ignorarse como caché; no se registró manualmente una sesión. La suite local conserva el detalle documental.

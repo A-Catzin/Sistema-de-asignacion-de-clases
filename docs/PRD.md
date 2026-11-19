@@ -4,8 +4,8 @@
 
 | Metadata | Valor |
 |---|---|
-| Versión documental | 1.1.0 |
-| Fecha | 2026-11-11 |
+| Versión documental | 1.2.0 |
+| Fecha | 2026-11-12 |
 | Autoría | Equipo de arquitectura y gestión técnica del proyecto |
 | Estado | Base de trabajo; pendiente de aprobación institucional |
 | Target launch | Proyecto completo sobre Firebase/Firestore; sin entregas MVP ni fecha acordada |
@@ -22,6 +22,8 @@ Esta suite sustituye al README raíz como punto de entrada para **la nueva etapa
 - **Pendiente:** requiere información o decisión externa; nunca se interpreta como terminado.
 
 Fuentes principales: [contexto](../Migracion/01_CONTEXTO_Y_FUNCIONES.md), [reglas](../Migracion/02_REGLAS_Y_DATOS.md), [reutilización](../Migracion/03_INVENTARIO_REUTILIZACION.md), [transición](../Migracion/04_PLAN_TRANSICION.md). La documentación anterior se contrasta con código y SQL; no se inspeccionaron producción ni usuarios reales.
+
+La [matriz de aceptación](ACCEPTANCE.md) desarrolla F01–F12 con escenarios observables y fuentes. Es preparación de T01: sus casos no están ejecutados ni aprobados institucionalmente.
 
 ## 1. Product Overview
 
@@ -79,7 +81,9 @@ No fijar fechas, disponibilidad, capacidad de usuarios ni ahorro porcentual sin 
 | Coordinador (`coordinator`) | Personal académico que administra carreras y docentes vinculados | Preparar grupos, materias, asignaciones, horarios y reportes | Cuenta activa y relaciones autorizadas; evaluar turno/modalidad cuando corresponda |
 | Docente como entidad | Persona a quien se asignan clases y carga | Ser seleccionado según perfiles y horas | No hay evidencia de cuenta o portal docente independiente |
 
-Demografía, número de usuarios, conectividad, dispositivos y necesidades específicas de accesibilidad: **no disponibles**. No inferir edad, experiencia digital ni distribución geográfica a partir de activos institucionales.
+**Uso simultáneo estimado:** aproximadamente hasta 50 administradores/coordinadores, confirmado por el usuario el 2026-11-12 («Aprox no mas de 50»). Es una estimación para dimensionamiento, no un límite de acceso implementado ni el total de cuentas. Faltan frecuencia de consultas/cambios, duración de sesiones y volúmenes de datos para estimar consumo; esta cifra no demuestra cumplimiento del presupuesto $0.
+
+Demografía, total de cuentas, conectividad, dispositivos y necesidades específicas de accesibilidad: **no disponibles**. No inferir edad, experiencia digital ni distribución geográfica a partir de activos institucionales.
 
 ### Recorrido operativo de referencia
 
