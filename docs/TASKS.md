@@ -6,13 +6,13 @@
 |---|---|
 | Versión documental | 1.3.0 |
 | Total de tareas | 30 |
-| Completed | 7 |
+| Completed | 9 |
 | In Progress | 0 |
-| Not Started | 23 |
-| Avance por conteo del plan completo | 7/30 = 23,3% |
-| Implementación de aplicación destino | Aplicación base Next.js/TS + emuladores Firebase (D1) verificada localmente; pendiente autenticación T07 |
+| Not Started | 21 |
+| Avance por conteo del plan completo | 9/30 = 30,0% |
+| Implementación de aplicación destino | Base Next.js/TS + emuladores (D1), autenticación Firebase (T07) y sesión segura con cookies/CSRF/revocación (T08) verificadas localmente; siguiente: T09–T10 |
 
-Los entregables terminados son **la Fase 0 completa (T00–T03), la selección de Firestore (T04), la vertical técnica (T05) y la aplicación base con emuladores (T06 / D1)**. El porcentaje no representa esfuerzo ni funcionalidades migradas a la app Web final. Las funciones de referencia no cuentan como tareas Firebase terminadas. Se trabaja hasta terminar el proyecto completo; las fases no son entregas MVP. Se inicia con datos nuevos y reglas anteriores. Presupuesto objetivo: $0; Blaze permitido sin autorización de cargos.
+Los entregables terminados son **la Fase 0 completa (T00–T03), Fase 1 completa (T04–T06) y autenticación/sesión de servidor (T07–T08)**. El porcentaje no representa esfuerzo ni funcionalidades migradas a la app Web final. Las funciones de referencia no cuentan como tareas Firebase terminadas. Se trabaja hasta terminar el proyecto completo; las fases no son entregas MVP. Se inicia con datos nuevos y reglas anteriores. Presupuesto objetivo: $0; Blaze permitido sin autorización de cargos.
 
 **Estados permitidos:** `Completed`, `In Progress`, `Not Started`. Cambiar un estado requiere evidencia; estar bloqueada no significa estar en progreso. Registrar el bloqueo en Notas. Prioridades Alta/Media/Baja son propuestas y deben validarse institucionalmente.
 
@@ -45,8 +45,8 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 
 | ID | Tarea | Prioridad | Estado | Notas / Entregable |
 |---|---|---|---|---|
-| T07 | Implementar autenticación Firebase | Alta | Not Started | Dep. T06. Inicio/cierre de sesión; SDK Web/Admin separados; identidad verificada |
-| T08 | Implementar sesión segura de servidor | Alta | Not Started | Dep. T07. Cookies, CSRF, expiración, revocación y política de cambios de privilegios; pruebas de sesiones inválidas |
+| T07 | Implementar autenticación Firebase | Alta | Completed | Dep. T06. Inicio/cierre de sesión en `/login` y `/dashboard` (`src/features/auth/`); SDK Web en memoria (`src/infrastructure/firebase/client.ts`) separado del SDK Admin (`server-only`); verificación de `idToken` fresco y perfil activo en `userProfiles/{uid}` sin autoaprovisionamiento. Verificado con `typecheck`, `lint`, `vitest` (11/11) y prueba viva contra Auth Emulator (`npm run test:auth:emulator`). |
+| T08 | Implementar sesión segura de servidor | Alta | Completed | Dep. T07. Cookie `__session` (`HttpOnly`, `SameSite=Lax`, `Secure` fuera de loopback, persistente 5 días) en `/api/auth/session`, política CSRF (`X-Requested-With`, `Sec-Fetch-Site`, `Origin`/`Host`), limpieza segura de cookies vencidas vía `/api/auth/clear` (sin logout-CSRF) con aviso informativo en `/login`, comprobación `checkRevoked: true`, revocación al salir e invalidación inmediata por cuenta inactiva o `privilegesUpdatedAtMs`. Verificadas 6 pruebas unitarias (`tests/unit/auth-session.test.ts`) y batería viva en emulador (`tests/integration/auth-session.integration.ts`: sin sesión, cookie vencida/forjada con limpieza en `/api/auth/clear`, protección contra logout-CSRF, CSRF en POST/DELETE, sin perfil/inactivo, sesión válida, desactivación y cambio de privilegios en curso, y rechazo tras revocación). |
 | T09 | Implementar aprovisionamiento administrativo | Alta | Not Started | Dep. T08. Solo administrador autorizado asigna rol/activación; cuenta nueva no obtiene privilegios por metadatos |
 | T10 | Implementar política por rol y ámbito | Alta | Not Started | Dep. T08–T09. Matriz de lectura/escritura para cuenta activa, carrera/docente y condiciones de turno; denegación directa y reglas/IAM pertinentes |
 | T11 | Implementar auditoría duradera | Alta | Not Started | Dep. T10. Catálogo de eventos, actor humano, timestamps, correlación y permisos; atomicidad con mutaciones cuando corresponda |
@@ -112,7 +112,7 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 
 T22 puede adelantarse con responsables de captura y no requiere esperar toda la UI; no implica acceso al origen. T25 debe crecer con cada módulo, no empezar al final; el estado global seguirá pendiente hasta configurar el entorno. T27 puede prepararse antes de UAT, pero no habilita el corte por sí sola.
 
-**Siguiente acción recomendada:** iniciar **T07** (autenticación Firebase Web/Admin separada) y **T08** (sesión segura de servidor con cookies y CSRF) sobre la aplicación base de T06.
+**Siguiente acción recomendada:** iniciar **T09** (aprovisionamiento administrativo controlado de cuentas y roles) y **T10** (política por rol y ámbito sobre el servidor y rutas protegidas).
 
 ## Criterio de actualización
 

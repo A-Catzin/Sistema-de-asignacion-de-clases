@@ -1,5 +1,11 @@
 import { getApp, getApps, initializeApp, type FirebaseApp } from "firebase/app";
-import { connectAuthEmulator, getAuth, type Auth } from "firebase/auth";
+import {
+  connectAuthEmulator,
+  getAuth,
+  inMemoryPersistence,
+  setPersistence,
+  type Auth
+} from "firebase/auth";
 import { getPublicFirebaseConfig } from "@/lib/env";
 
 let authEmulatorConnected = false;
@@ -25,7 +31,7 @@ export function getFirebaseClientApp(): FirebaseApp {
   });
 }
 
-export function getFirebaseClientAuth(): Auth {
+export async function getFirebaseClientAuth(): Promise<Auth> {
   const app = getFirebaseClientApp();
   const auth = getAuth(app);
   const useEmulators = process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATORS === "true";
@@ -36,5 +42,7 @@ export function getFirebaseClientAuth(): Auth {
     authEmulatorConnected = true;
   }
 
+  // Keep Firebase Web state in memory only; the authoritative session lives in the HttpOnly cookie.
+  await setPersistence(auth, inMemoryPersistence);
   return auth;
 }

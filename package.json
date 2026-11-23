@@ -9,6 +9,7 @@
     "lint": "eslint .",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
+    "test:auth:emulator": "node tests/integration/auth-session.integration.ts",
     "emulators:start": "firebase emulators:start --only auth,firestore --project demo-sistema-asignacion"
   },
   "dependencies": {

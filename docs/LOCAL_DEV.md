@@ -62,15 +62,19 @@ En dos terminales desde la raíz:
    npm run dev
    ```
 
-   Abrir `http://127.0.0.1:3000` para ver el tablero de estado del entorno local y `http://127.0.0.1:3000/api/health` para consultar el JSON de salud.
+   Abrir:
+   - `http://127.0.0.1:3000` — tablero de estado del entorno local (`/api/health` en JSON).
+   - `http://127.0.0.1:3000/login` — inicio de sesión con Firebase Auth (emulador) y emisión de cookie `__session` en `/api/auth/session`.
+   - `http://127.0.0.1:3000/dashboard` — panel protegido por sesión verificada en servidor.
 
 ## Comandos de calidad y pruebas
 
 ```sh
-npm run typecheck   # tsc --noEmit
-npm run lint        # eslint .
-npm test            # pruebas unitarias con Vitest (tests/unit/)
-npm run build       # compilación de producción Next.js
+npm run typecheck          # tsc --noEmit
+npm run lint               # eslint .
+npm test                   # pruebas unitarias con Vitest (tests/unit/)
+npm run build              # compilación de producción Next.js
+npm run test:auth:emulator # prueba de integración Auth/Sesión/CSRF contra emuladores y servidor activo
 ```
 
 Para las pruebas aisladas del prototipo de integridad/ciclos (`prototypes/assignment-integrity/`), consultar [README del prototipo](../prototypes/assignment-integrity/README.md).

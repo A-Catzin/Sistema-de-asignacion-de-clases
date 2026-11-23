@@ -1,8 +1,10 @@
+import Link from "next/link";
 import { AlertCircle, CheckCircle2, Database, KeyRound, Server, ShieldCheck } from "lucide-react";
 import {
   getLocalEnvironmentStatus,
   type EmulatorProbeStatus
 } from "@/infrastructure/firebase/health";
+import { getCurrentServerSession } from "@/lib/auth/server-session";
 import { cn } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
@@ -33,7 +35,10 @@ function statusMeta(status: EmulatorProbeStatus) {
 }
 
 export default async function HomePage() {
-  const envStatus = await getLocalEnvironmentStatus();
+  const [envStatus, session] = await Promise.all([
+    getLocalEnvironmentStatus(),
+    getCurrentServerSession()
+  ]);
   const authBadge = statusMeta(envStatus.emulators.auth.status);
   const firestoreBadge = statusMeta(envStatus.emulators.firestore.status);
 
@@ -58,16 +63,24 @@ export default async function HomePage() {
       </header>
 
       <section aria-labelledby="environment-status-heading" className="space-y-4">
-        <div className="flex items-center justify-between">
+        <div className="flex flex-wrap items-center justify-between gap-2">
           <h2 id="environment-status-heading" className="text-lg font-semibold text-ink">
             Estado del entorno local
           </h2>
-          <a
-            href="/api/health"
-            className="focus-ring rounded-md border border-line bg-panel px-3 py-1.5 text-xs font-medium text-ink hover:bg-brandSoft"
-          >
-            Ver JSON de salud
-          </a>
+          <div className="flex items-center gap-2">
+            <Link
+              href={session.ok ? "/dashboard" : "/login"}
+              className="focus-ring rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:bg-brandDeep"
+            >
+              {session.ok ? "Ir al panel" : "Iniciar sesión"}
+            </Link>
+            <a
+              href="/api/health"
+              className="focus-ring rounded-md border border-line bg-panel px-3 py-1.5 text-xs font-medium text-ink hover:bg-brandSoft"
+            >
+              Ver JSON de salud
+            </a>
+          </div>
         </div>
 
         <div className="grid gap-4 sm:grid-cols-2">
@@ -156,8 +169,9 @@ export default async function HomePage() {
       <section className="rounded-xl border border-line-subtle bg-panel p-5">
         <h2 className="text-sm font-semibold text-ink">Siguiente fase del plan</h2>
         <p className="mt-1 text-sm text-muted">
-          Siguiente fase: <strong>T07–T08</strong> (autenticación Firebase y sesión segura de
-          servidor). Para operar esta vista con los emuladores activos, ejecuta{" "}
+          Autenticación y sesión segura listas (<strong>T07–T08</strong>). Siguiente fase:{" "}
+          <strong>T09–T10</strong> (aprovisionamiento administrativo y política por rol y ámbito).
+          Para operar esta vista con los emuladores activos, ejecuta{" "}
           <code className="rounded bg-card px-1.5 py-0.5 font-mono text-xs text-ink">
             npm run emulators:start
           </code>{" "}
