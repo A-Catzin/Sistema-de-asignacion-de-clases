@@ -6,13 +6,13 @@
 |---|---|
 | Versión documental | 1.3.0 |
 | Total de tareas | 30 |
-| Completed | 6 |
+| Completed | 7 |
 | In Progress | 0 |
-| Not Started | 24 |
-| Avance por conteo del plan completo | 6/30 = 20,0% |
-| Implementación de aplicación destino | Prototipo T05 verificado en emulador (38 pruebas); listo para crear aplicación base en T06 |
+| Not Started | 23 |
+| Avance por conteo del plan completo | 7/30 = 23,3% |
+| Implementación de aplicación destino | Aplicación base Next.js/TS + emuladores Firebase (D1) verificada localmente; pendiente autenticación T07 |
 
-Los entregables terminados son **la Fase 0 completa (T00–T03), la selección de Firestore (T04) y la vertical técnica de integridad/autorización/ciclos (T05)**. El porcentaje no representa esfuerzo ni funcionalidades migradas a la app Web final. Las funciones de referencia no cuentan como tareas Firebase terminadas. Se trabaja hasta terminar el proyecto completo; las fases no son entregas MVP. Se inicia con datos nuevos y reglas anteriores. Presupuesto objetivo: $0; Blaze permitido sin autorización de cargos.
+Los entregables terminados son **la Fase 0 completa (T00–T03), la selección de Firestore (T04), la vertical técnica (T05) y la aplicación base con emuladores (T06 / D1)**. El porcentaje no representa esfuerzo ni funcionalidades migradas a la app Web final. Las funciones de referencia no cuentan como tareas Firebase terminadas. Se trabaja hasta terminar el proyecto completo; las fases no son entregas MVP. Se inicia con datos nuevos y reglas anteriores. Presupuesto objetivo: $0; Blaze permitido sin autorización de cargos.
 
 **Estados permitidos:** `Completed`, `In Progress`, `Not Started`. Cambiar un estado requiere evidencia; estar bloqueada no significa estar en progreso. Registrar el bloqueo en Notas. Prioridades Alta/Media/Baja son propuestas y deben validarse institucionalmente.
 
@@ -37,7 +37,7 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 |---|---|---|---|---|
 | T04 | Seleccionar persistencia dentro de Firebase | Alta | Completed | El usuario aceptó Firestore tras confirmar presupuesto $0. SQL Connect descartado por costo recurrente de Cloud SQL; ADR-003 actualizado. Esquema y pruebas siguen en T05 |
 | T05 | Probar vertical crítica de integridad | Alta | Completed | Dep. T01–T04 cerradas. [Prototipo local](../prototypes/assignment-integrity/README.md) con 12 pruebas puras (8 de dominio + 4 de autorización) y 26 del emulador aprobadas (20 de integridad con 3 guardas de proyección mínima + 2 de permisos/auditoría atómica + 4 de activación de ciclos e idempotencia ante reintentos, concurrencia y fallo parcial, cubriendo D0/AC21/AC30). Medido con `measure-t05.ts`: 4 lecturas / 5 escrituras por alta con aula y auditoría; 6 y 20 escrituras disjuntas sin abortos y 6 en conflicto sobre la misma aula con 1 ganadora; ~16 900 escrituras/día proyectadas para 1 300 grupos × 13 bloques en 5 días (<20 000 gratuitas); proyección mínima de aula en 81 B/entrada (~32,0 KB por 390 bloques, ~32,78 ciclos hasta 1 MiB). |
-| T06 | Crear aplicación y entorno reproducible | Alta | Not Started | Dep. T05 aprobado. Manifest/lockfile raíz, Next/TS, variables de ejemplo sin secretos, adaptador elegido, emuladores y comandos; no copiar scripts faltantes |
+| T06 | Crear aplicación y entorno reproducible | Alta | Completed | Dep. T05 aprobado. `package.json`/`package-lock.json` raíz, Next.js 16/TypeScript strict, Tailwind con tokens `muted-foreground` y `line-subtle` (K07), SDK Web/Admin separados (`server-only`), `firebase.json` + `firestore.rules` (`allow read, write: if false;`), `.env.example` sin secretos y guía [LOCAL_DEV](LOCAL_DEV.md). Verificado: `typecheck`, `lint`, `vitest` (5/5), `next build` y arranque vivo D1 conectado a emuladores Auth (`127.0.0.1:9099`) y Firestore (`127.0.0.1:8080`) con `/api/health` y `/` en HTTP 200. |
 
 **Salida:** diseño probado, instalación y entorno local documentados. Ningún recurso remoto se crea sin autorización de destino, operación y sesión.
 
@@ -112,7 +112,7 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 
 T22 puede adelantarse con responsables de captura y no requiere esperar toda la UI; no implica acceso al origen. T25 debe crecer con cada módulo, no empezar al final; el estado global seguirá pendiente hasta configurar el entorno. T27 puede prepararse antes de UAT, pero no habilita el corte por sí sola.
 
-**Siguiente acción recomendada:** iniciar **T06 (D1 · Primera demo local)** creando la aplicación base reproducible en Next.js/TypeScript con emuladores Firebase configurados localmente (sin crear recursos remotos ni copiar scripts faltantes).
+**Siguiente acción recomendada:** iniciar **T07** (autenticación Firebase Web/Admin separada) y **T08** (sesión segura de servidor con cookies y CSRF) sobre la aplicación base de T06.
 
 ## Criterio de actualización
 
