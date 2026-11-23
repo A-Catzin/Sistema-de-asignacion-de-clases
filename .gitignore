@@ -1,2 +1,38 @@
+# Reference package & local tooling
 /Migracion
 .codegraph/
+
+# Dependencies & build output
+node_modules/
+.next/
+out/
+coverage/
+next-env.d.ts
+*.tsbuildinfo
+
+# Local environment secrets (keep .env.example tracked)
+.env
+.env.local
+.env.*.local
+
+# Firebase emulators & debug logs
+.firebase/
+emulator-data/
+.emulator-data/
+*-debug.log*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# Test artifacts
+playwright-report/
+test-results/
+.vitest/
+
+# OS & editor swap files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
