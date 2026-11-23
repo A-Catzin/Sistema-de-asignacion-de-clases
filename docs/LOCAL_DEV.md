@@ -22,13 +22,24 @@ firebase setup:emulators:firestore
    npm install
    ```
 
-2. Crear `.env.local` a partir de `.env.example` (no guardar secretos en el repositorio):
+2. Crear `.env.local` en la raíz (ignorado por Git; no guardar secretos en el repositorio) con los valores locales para emuladores:
 
    ```sh
-   cp .env.example .env.local
+   cat <<'EOF' > .env.local
+   NEXT_PUBLIC_FIREBASE_PROJECT_ID=demo-sistema-asignacion
+   NEXT_PUBLIC_FIREBASE_API_KEY=demo-local-api-key
+   NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=demo-sistema-asignacion.firebaseapp.com
+   NEXT_PUBLIC_FIREBASE_APP_ID=1:000000000000:web:localdemo
+   NEXT_PUBLIC_USE_FIREBASE_EMULATORS=true
+   NEXT_PUBLIC_FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099
+
+   FIREBASE_PROJECT_ID=demo-sistema-asignacion
+   FIREBASE_AUTH_EMULATOR_HOST=127.0.0.1:9099
+   FIRESTORE_EMULATOR_HOST=127.0.0.1:8080
+   EOF
    ```
 
-   Las variables de `.env.example` apuntan por defecto al proyecto sintético `demo-sistema-asignacion` y a direcciones loopback (`127.0.0.1:9099` para Auth y `127.0.0.1:8080` para Firestore).
+   Estas variables apuntan al proyecto sintético `demo-sistema-asignacion` y a direcciones loopback (`127.0.0.1:9099` para Auth y `127.0.0.1:8080` para Firestore).
 
 ## Arranque de D1 (primera demo local)
 

@@ -1,6 +1,8 @@
 # Reference package & local tooling
 /Migracion
+.atl/
 .codegraph/
+.engram/
 
 # Dependencies & build output
 node_modules/
@@ -10,10 +12,9 @@ coverage/
 next-env.d.ts
 *.tsbuildinfo
 
-# Local environment secrets (keep .env.example tracked)
+# Local environment files
 .env
-.env.local
-.env.*.local
+.env.*
 
 # Firebase emulators & debug logs
 .firebase/
