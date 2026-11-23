@@ -108,7 +108,7 @@ Los identificadores RF son propios de este SRS; F y AC conservan los identificad
 | RF-01 | Permitir inicio y cierre de sesión con identidad válida y cuenta activa; aplicar expiración y revocación conforme a una política todavía por definir. | F01; AC01 |
 | RF-02 | Aprovisionar y asignar privilegios únicamente por operaciones administrativas autorizadas. Los metadatos enviados por una cuenta nueva no pueden conceder rol administrador. | F01; AC03 |
 | RF-03 | Verificar identidad, actividad, rol y ámbito en cada lectura o mutación protegida, incluidos endpoints y CSV. Denegar acceso directo no autorizado aunque el usuario altere la interfaz. | F02; AC02, AC04, AC35 |
-| RF-04 | Limitar al coordinador a sus carreras y docentes autorizados; denegar vínculos ajenos e inactivos y aplicar condiciones de turno/modalidad pertinentes. Una carrera no se comparte entre coordinadores; un docente sí puede estar vinculado a más de uno. El vínculo compartido no otorga acceso a los grupos ni a las asignaciones de otra carrera. | F02; AC04, AC09 |
+| RF-04 | Limitar al coordinador a sus carreras y docentes autorizados en grupos en `draft`/`review`; denegar vínculos ajenos e inactivos y aplicar condiciones de turno/modalidad pertinentes. Una carrera no se comparte entre coordinadores; un docente sí puede estar vinculado a más de uno sin otorgar acceso a los grupos en trabajo ni edición de otra carrera. Los grupos `final`/`archived` permiten consulta general de solo lectura de sus horarios definidos para todo usuario autenticado. | F02; AC04, AC09 |
 
 ### 5.2 Catálogos, docentes y recursos
 
@@ -125,7 +125,7 @@ Los identificadores RF son propios de este SRS; F y AC conservan los identificad
 | ID | Requisito | Trazabilidad |
 |---|---|---|
 | RF-10 | Gestionar grupos y sus materias por ciclo. Crear grupo o cambiar su ciclo requiere ciclo activo; el estado del ciclo y su indicador de actividad deben ser coherentes. | F06; AC27 |
-| RF-11 | Aplicar restricciones de mutación para grupos `final` y `archived`. El valor heredado `active` requiere un contrato explícito antes de normalizarse. | F06; AC23 |
+| RF-11 | Aplicar bloqueo de mutaciones en materias y asignaciones para grupos `final` y `archived` en ambos roles. Contrato destino confirmado con estados `draft`, `review`, `final` y `archived`, descartando el valor heredado `active` al iniciar con datos nuevos. | F06; AC23 |
 | RF-12 | Permitir al coordinador la transición `draft` ↔ `review` dentro de su ámbito; reservar a administración cambios generales del grupo, finalización/archivo y borrado de materia según la regla de referencia. | F06; AC24 |
 | RF-13 | Para finalizar un grupo, exigir materias completas, sin horas faltantes ni excedidas, y aula salvo modalidad `virtual_modular`. Si falla, conservar el estado previo. | F06; AC25 |
 | RF-14 | Permitir al coordinador reducir horas planeadas por debajo de las ya asignadas dentro de su ámbito y sujeto a las restricciones del estado del grupo. Esta excepción no elimina la comprobación al finalizar. | F04, F06; AC22, AC25 |
@@ -157,7 +157,7 @@ Los identificadores RF son propios de este SRS; F y AC conservan los identificad
 | ID | Requisito | Trazabilidad |
 |---|---|---|
 | RF-27 | Mostrar paneles y carga con asignaciones activas y cambios confirmados; excluir canceladas y no mostrar éxito tras un rechazo. Para un docente autorizado y compartido, mostrar la carga total y el desglose de horas activas por coordinador, sin abrir el acceso a grupos ni registros individuales de asignación de otra carrera. | F04, F09; AC31 |
-| RF-28 | Consultar horarios por grupo, docente y aula dentro del ámbito autorizado, mostrando módulo, intervalo y recursos pertinentes. | F09; AC32; DESIGN |
+| RF-28 | Consultar horarios por grupo, docente y aula dentro del ámbito autorizado para trabajo (`draft`/`review`), e incluir una vista general de solo lectura de horarios definidos (`final`/`archived`) de toda la universidad por grupo y día para todos los usuarios autenticados, mostrando intervalo, materia, docente y aula efectiva con los campos ya existentes (sin `Clave` ni `Créditos`). | F09; AC32; DESIGN |
 | RF-29 | Exportar reportes y CSV de asignaciones activas con filtros, ámbito, orden y diez columnas de referencia; conciliar filas y conteos con las vistas. Detallar el contrato exacto durante T21. | F10; AC33 |
 | RF-30 | Escapar comillas, separadores y saltos de línea y neutralizar contenido interpretable como fórmulas conforme al contrato de exportación de referencia. | F10; AC34 |
 | RF-31 | Presentar datos incompletos e indicadores coherentes con el estado académico y el ámbito; el catálogo exacto de indicadores permanece pendiente. | F10; AC36 |
@@ -188,9 +188,9 @@ Los identificadores RF son propios de este SRS; F y AC conservan los identificad
 | RNF-05 Costo | Validar objetivo $0 sobre base, hosting, ejecución, builds, logs y recuperación antes de habilitarlos. | Restricción confirmada; sin garantía de gratuidad ni autorización de cargos |
 | RNF-06 Usabilidad | Navegación por rol y estados de carga, vacío, permiso insuficiente, datos parciales, validación, envío y error recuperable. Preservar entradas ante fallo y permitir recuperar estado después de conflicto. | Requisito de experiencia previsto; AC31–AC32 y DESIGN |
 | RNF-07 Accesibilidad | Prever teclado, foco visible, etiquetas, errores asociados, estados textuales, contraste y reducción de movimiento. | WCAG 2.2 AA es objetivo propuesto, no certificación ni criterio institucional aprobado |
-| RNF-08 Presentación | Mantener temas claro/oscuro y continuidad visual. Validar el MVP en computadora como plataforma principal y también en celular; comprobar tablas y horarios en pantallas pequeñas. | Prioridad de dispositivos confirmada; resoluciones y navegadores pendientes |
-| RNF-09 Privacidad | Restringir auditoría/exportaciones y clasificar datos y activos antes de distribuirlos. Usar fixtures sintéticos, no datos personales reales, en pruebas. | Clasificación, retención y responsables pendientes; T03 |
-| RNF-10 Recuperación | Ensayar recuperación de datos, relaciones y acceso antes de producción. | Al menos un ensayo completo es meta propuesta; RPO/RTO y mecanismo pendientes |
+| RNF-08 Presentación | Mantener temas claro/oscuro y continuidad visual. Validar en computadora con Chrome/Edge actuales (prioritario) y en celular con Chrome/Safari actuales; comprobar tablas y horarios en pantallas pequeñas. | Prioridad de dispositivos y navegadores confirmada; T20/T26 |
+| RNF-09 Privacidad | Restringir auditoría/exportaciones y mantener `/Migracion` y sus activos (incluida la hoja de cálculo) fuera de Git y sin importación ni publicación. Usar fixtures sintéticos, no datos personales reales, en pruebas. | T03 confirmado |
+| RNF-10 Recuperación | Línea base compatible con $0: respaldo exportado diario en semanas pico y semanal el resto del ciclo (RPO objetivo ≤ 24 h; recuperación manual objetivo el mismo día hábil), ensayado en estado aislado antes de producción. | Línea base confirmada; ensayo en T28 |
 | RNF-11 Mantenibilidad | Mantener reglas de dominio verificables y separadas de presentación/persistencia; validar entradas y disponer de entorno y runners reproducibles. | Orientación de diseño/desarrollo; estructura concreta propuesta, no aprobada |
 
 No se fijan porcentajes de disponibilidad, tiempos de respuesta, navegadores soportados ni límites de volumen sin acuerdo. Las cuotas o precios externos no se reproducen aquí como valores vigentes: deben verificarse al evaluar infraestructura. Los detalles técnicos sobre SDK, Rules y transacciones corresponden a ARCHITECTURE/RULES y requieren verificación durante la implementación.
@@ -261,14 +261,14 @@ El cierre requiere responsables y decisiones abiertas resueltos, pruebas funcion
 
 | ID | Pendiente / discrepancia | Impacto / siguiente resolución |
 |---|---|---|
-| PD-01 | Matriz de permisos por operación y excepciones administrativas | Completar T01/T03 sin ampliar permisos existentes |
+| PD-01 | Matriz de permisos por operación y excepciones administrativas | **Resuelto en T01/T03** en [ACCEPTANCE §Matriz](ACCEPTANCE.md#matriz-de-permisos-por-operación-y-rol-t01t03-confirmada); pruebas de servidor en T10–T15 |
 | PD-02 | Frecuencias de lectura/escritura, duración de sesiones y volumen de asignaciones | Base T02/T26: 1 000–1 300 grupos activos por ciclo; la carga y los ajustes de horarios se concentran en aproximadamente una semana por período de mayor actividad. Un ejemplo entre semana tiene 5 materias y 13 bloques semanales; hay grupos sabatinos con 2 o 3 materias, y la cantidad varía. No extrapolar un promedio ni un total de registros desde un solo horario. |
-| PD-03 | Fechas exactas del calendario académico, unidades/precisión de horas y compatibilidad de navegadores | Zona horaria confirmada: Cancún. Mayor actividad esperada en noviembre, febrero o marzo, y agosto o septiembre. Se probará en computadora y celular, con prioridad en computadora. Estos períodos no fijan fechas de cierre. |
-| PD-04 | SLO, disponibilidad, responsables nominales, retención y RPO/RTO | Acordar aceptación y operación antes de producción |
-| PD-05 | Modelo Firestore, consultas, índices, límites y coordinación transaccional | Probar integridad con persistencia aislada en T05 antes de T06 |
-| PD-06 | Representación del módulo y alcance del calendario sabatino | Arquitectura propone módulo nullable; el origen usa `0`. Queda pendiente determinar si las fechas de los módulos 1 y 2 son comunes al cuatrimestre o varían por carrera o grupo. No asumir una opción al diseñar el calendario. |
-| PD-07 | Arquitectura propone guardas por ciclo; reglas de carga/cruces no se particionan por ciclo | No aprobar partición que admita conflictos antes prohibidos; demostrar cobertura |
-| PD-08 | Grupo `active` heredado frente a estados destino | Definir mapeo sin normalización silenciosa ni pérdida de restricciones |
+| PD-03 | Navegadores, zona horaria y ventanas pico | **Resuelto en T02:** Cancún; picos en nov, feb/mar y ago/sep (~1 semana); Chrome/Edge en escritorio (prioritario) y Chrome/Safari en móvil; sin fechas fijas de lanzamiento. |
+| PD-04 | Respaldo/RPO/RTO y responsables nominales de aprobación | **Respaldo resuelto en T02** (exportado diario en pico / semanal resto, RPO ≤ 24 h, mismo día hábil, ensayo T28). Solicitante aprueba MVP y designa aprobación formal antes de T29. |
+| PD-05 | Modelo Firestore, consultas, índices, límites y coordinación transaccional | **Prototipo T05 probado en emulador** (3 guardas mínimas por recurso, auditoría atómica y activación idempotente por cohorte); índices finales a validar en T06–T19. |
+| PD-06 | Representación del módulo y alcance del calendario sabatino | **Módulo resuelto en T03:** entero explícito `0 | 1 | 2`. Queda diferido a T14 definir si las fechas de módulos 1 y 2 son comunes al cuatrimestre o varían por carrera/grupo. |
+| PD-07 | Arquitectura propone guardas por ciclo; reglas de carga/cruces no se particionan por ciclo | **Resuelto en T05:** las guardas del prototipo no se dividen por ciclo y conservan paridad RN-04. |
+| PD-08 | Grupo `active` heredado frente a estados destino | **Resuelto en T03:** contrato destino `draft | review | final | archived` (sin `active` heredado al iniciar con datos nuevos). |
 | PD-09 | CSV anterior sin sesión devuelve encabezados | El destino debe denegar explícitamente; no confundir paridad observada con requisito de seguridad |
 | PD-10 | Diez columnas/orden CSV e indicadores de datos incompletos | Precisar contrato de referencia durante T21 y fijarlo con pruebas |
 | PD-11 | Hosting, región, ejecución, controles de consumo y recuperación dentro de $0 | Verificar alternativas/costos antes de habilitar servicios; no asumir gratuidad |

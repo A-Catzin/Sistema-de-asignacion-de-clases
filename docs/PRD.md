@@ -107,7 +107,7 @@ Prioridades de ejecución: **P0** condición de integridad/salida; **P1** parida
 | F06 | Grupos y materias por ciclo | P0 / proyecto completo | Estados editables/cerrados aplicados en servidor | T15 |
 | F07 | Asignaciones y conflictos | P0 / proyecto completo | Rechazo de cruces docente/grupo/aula y exceso de carga; cancelación conserva historial | T16–T17 |
 | F08 | Cohortes e historial | P0 / proyecto completo | Avance idempotente y exclusión de materias cursadas/activas incompatibles | T18–T19 |
-| F09 | Horarios y paneles por rol | P1 / proyecto completo | Datos y navegación limitados al alcance real | T20 |
+| F09 | Horarios y paneles por rol | P1 / proyecto completo | Datos y navegación limitados al alcance real en trabajo (`draft`/`review`), más consulta general de solo lectura de horarios definidos (`final`/`archived`) de toda la universidad para usuarios autenticados con los campos existentes (sin `Clave` ni `Créditos`) | T20 |
 | F10 | Reportes, CSV y datos incompletos | P1 / proyecto completo | Exportación autorizada y conciliada con las vistas | T21 |
 | F11 | Auditoría y recuperación | P0 / proyecto completo | Actor real, fecha y cambio relevantes; restauración ensayada | T11, T28 |
 | F12 | Inicialización de datos y cuentas nuevos | P0 / proyecto completo | Catálogos nuevos validados, administrador inicial seguro y reinicialización de pruebas sin duplicados | T22–T24, T28–T29 |
@@ -116,7 +116,7 @@ Prioridades de ejecución: **P0** condición de integridad/salida; **P1** parida
 
 ### Reglas de paridad no negociables sin decisión de negocio
 
-- Los grupos `final`/`archived` restringen mutaciones; validar el valor heredado `active` antes de normalizar estados.
+- Los grupos `final`/`archived` bloquean mutaciones en materias y asignaciones para ambos roles y habilitan consulta general de solo lectura de sus horarios definidos para todo usuario autenticado. Al iniciar con datos nuevos, el contrato destino adopta únicamente `draft`, `review`, `final` y `archived` (sin `active` heredado).
 - Las coincidencias de horario dependen de intervalos y módulos: módulos positivos distintos pueden coexistir; sin módulo se compara contra ambos.
 - Los perfiles requeridos se interpretan con la lógica existente, no como obligación de poseer todos.
 - Cancelar asignaciones libera ocupación sin borrar su historia.

@@ -2,17 +2,17 @@
 
 ![Estado: preparación](https://img.shields.io/badge/estado-preparación-blue) ![Migración implementada: 0%](https://img.shields.io/badge/migración_implementada-0%25-lightgrey)
 
-| Métrica | Valor al 2026-11-12 |
+| Métrica | Valor al 2026-11-23 |
 |---|---|
-| Versión documental | 1.2.0 |
+| Versión documental | 1.3.0 |
 | Total de tareas | 30 |
-| Completed | 2 |
-| In Progress | 1 |
-| Not Started | 27 |
-| Avance por conteo del plan completo | 2/30 = 6,7% |
-| Implementación de aplicación destino | 0%: no existe código Firebase ejecutable |
+| Completed | 6 |
+| In Progress | 0 |
+| Not Started | 24 |
+| Avance por conteo del plan completo | 6/30 = 20,0% |
+| Implementación de aplicación destino | Prototipo T05 verificado en emulador (38 pruebas); listo para crear aplicación base en T06 |
 
-Los entregables terminados son **la base documental T00 y la selección de Firestore T04**, confirmada por el usuario. El diseño de colecciones, consultas y transacciones sigue pendiente en T05. El porcentaje no representa esfuerzo, calidad ni funcionalidades migradas. Las funciones de referencia no cuentan como tareas Firebase terminadas. No hay sprint, fechas ni responsables nominales confirmados. Se trabaja hasta terminar el proyecto completo; las fases no son entregas MVP. Se inicia con datos nuevos y reglas anteriores. Presupuesto objetivo: $0; Blaze permitido sin autorización de cargos.
+Los entregables terminados son **la Fase 0 completa (T00–T03), la selección de Firestore (T04) y la vertical técnica de integridad/autorización/ciclos (T05)**. El porcentaje no representa esfuerzo ni funcionalidades migradas a la app Web final. Las funciones de referencia no cuentan como tareas Firebase terminadas. Se trabaja hasta terminar el proyecto completo; las fases no son entregas MVP. Se inicia con datos nuevos y reglas anteriores. Presupuesto objetivo: $0; Blaze permitido sin autorización de cargos.
 
 **Estados permitidos:** `Completed`, `In Progress`, `Not Started`. Cambiar un estado requiere evidencia; estar bloqueada no significa estar en progreso. Registrar el bloqueo en Notas. Prioridades Alta/Media/Baja son propuestas y deben validarse institucionalmente.
 
@@ -25,9 +25,9 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 | ID | Tarea | Prioridad | Estado | Notas / Entregable |
 |---|---|---|---|---|
 | T00 | Analizar referencia y crear suite modular | Alta | Completed | Seis documentos en `docs/`; distinción observado/propuesto/pendiente, enlaces y consistencia estructural revisados. Sin pruebas de runtime |
-| T01 | Validar casos de aceptación del alcance completo | Alta | In Progress | Dep. T00. [Matriz de 40 casos](ACCEPTANCE.md) para F01–F12, sin ejecución destino. Se ratificaron los recorridos documentados y el cambio de docente por coordinación en borrador o revisión de su carrera (AC19). Falta cerrar la matriz por operación/rol; no equivale a aceptación institucional. |
-| T02 | Acordar restricciones y responsables | Alta | Not Started | Dep. T01. Presupuesto $0, zona horaria de Cancún y aproximadamente 30 usuarios totales, 6 simultáneos habitualmente y picos poco frecuentes de 10–20 simultáneos. Volumen estimado: 1 000–1 300 grupos activos por ciclo. Mayor actividad esperada en noviembre, febrero o marzo, y agosto o septiembre; la carga y los ajustes de horarios se concentran en aproximadamente una semana por período. El solicitante dará el visto bueno del MVP interno o comunicará los ajustes tras la junta de presentación. Pruebas del MVP en computadora como prioridad y también en celular. Faltan fechas exactas, frecuencia de operaciones, volumen de asignaciones, navegadores, SLO/RPO/RTO y responsables de aprobación de producción. |
-| T03 | Especificar reglas preservadas y revisar privacidad del paquete | Alta | Not Started | Dep. T01. Administrador con lectura de todos los datos operativos. Coordinación solo en su ámbito: carreras no compartidas y docentes potencialmente compartidos con carga total y desglose de horas por coordinador visibles (AC31), sin acceso a grupos ni asignaciones individuales de otra carrera (AC04). Excepciones confirmadas: coordinación puede reducir horas planeadas en su ámbito (AC22); solo administración puede borrar físicamente un grupo no ligado a cohorte activa (AC26). Revisar activos antes de publicarlos; no importar la hoja anterior. |
+| T01 | Validar casos de aceptación del alcance completo | Alta | Completed | Dep. T00. [Matriz de 40 casos](ACCEPTANCE.md) y matriz confirmada por operación y rol, incluida la consulta general de solo lectura de horarios definidos (`final`/`archived`) para todo usuario autenticado sin agregar `Clave` ni `Créditos` a materias. La ejecución en la aplicación destino queda en T06–T26 y UAT en T26/T29. |
+| T02 | Acordar restricciones y responsables | Alta | Completed | Dep. T01. Presupuesto $0, zona horaria de Cancún, ~30 usuarios totales (6 habituales simultáneos, picos 10–20) y 1 000–1 300 grupos activos por ciclo en ventanas pico de ~1 semana (noviembre, febrero/marzo y agosto/septiembre). Navegadores: Chrome/Edge actuales en computadora (prioritario) y Chrome/Safari en celular. Respaldo compatible con $0: exportación diaria en semanas pico y semanal el resto del ciclo (RPO ≤ 24 h; recuperación mismo día hábil, a ensayar en T28). Sin fechas fijas; el solicitante validará el MVP interno y designará la aprobación formal de producción antes de T29. |
+| T03 | Especificar reglas preservadas y revisar privacidad del paquete | Alta | Completed | Dep. T01. Reglas y excepciones confirmadas (AC04, AC22, AC26, AC31) más consulta general de solo lectura de horarios `final`/`archived` para usuarios autenticados (aislamiento estricto en `draft`/`review`). Contratos limpios por iniciar con datos nuevos: estados de grupo `draft|review|final|archived` (sin `active` heredado), módulos `0|1|2` y materias sin `Clave`/`Créditos`. Paquete `/Migracion` y su hoja de cálculo permanecen excluidos de Git, sin importación ni publicación. |
 
 **Salida:** alcance completo confirmado, detalles operativos cuantificables y excepciones documentadas. No publicar contenidos de `/Migracion` para conseguir esta aprobación.
 
@@ -36,7 +36,7 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 | ID | Tarea | Prioridad | Estado | Notas / Entregable |
 |---|---|---|---|---|
 | T04 | Seleccionar persistencia dentro de Firebase | Alta | Completed | El usuario aceptó Firestore tras confirmar presupuesto $0. SQL Connect descartado por costo recurrente de Cloud SQL; ADR-003 actualizado. Esquema y pruebas siguen en T05 |
-| T05 | Probar vertical crítica de integridad | Alta | Not Started | Dep. T01–T04. Definir consultas/colecciones/índices y guardas Firestore; prototipo aislado de asignación, permisos, carga, auditoría y concurrencia; activación idempotente y costo por operación; revisar diseño si falla |
+| T05 | Probar vertical crítica de integridad | Alta | Completed | Dep. T01–T04 cerradas. [Prototipo local](../prototypes/assignment-integrity/README.md) con 12 pruebas puras (8 de dominio + 4 de autorización) y 26 del emulador aprobadas (20 de integridad con 3 guardas de proyección mínima + 2 de permisos/auditoría atómica + 4 de activación de ciclos e idempotencia ante reintentos, concurrencia y fallo parcial, cubriendo D0/AC21/AC30). Medido con `measure-t05.ts`: 4 lecturas / 5 escrituras por alta con aula y auditoría; 6 y 20 escrituras disjuntas sin abortos y 6 en conflicto sobre la misma aula con 1 ganadora; ~16 900 escrituras/día proyectadas para 1 300 grupos × 13 bloques en 5 días (<20 000 gratuitas); proyección mínima de aula en 81 B/entrada (~32,0 KB por 390 bloques, ~32,78 ciclos hasta 1 MiB). |
 | T06 | Crear aplicación y entorno reproducible | Alta | Not Started | Dep. T05 aprobado. Manifest/lockfile raíz, Next/TS, variables de ejemplo sin secretos, adaptador elegido, emuladores y comandos; no copiar scripts faltantes |
 
 **Salida:** diseño probado, instalación y entorno local documentados. Ningún recurso remoto se crea sin autorización de destino, operación y sesión.
@@ -79,7 +79,7 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 
 | ID | Tarea | Prioridad | Estado | Notas / Entregable |
 |---|---|---|---|---|
-| T20 | Adaptar navegación, paneles y horarios | Media | Not Started | Dep. T16, T18–T19. Reusar primitivas y tokens; tema claro/oscuro, estados de carga/error/vacío y accesibilidad; corregir aliases CSS con prueba |
+| T20 | Adaptar navegación, paneles y horarios | Media | Not Started | Dep. T16, T18–T19. Reusar primitivas y tokens; vista general de solo lectura de horarios definidos (`final`/`archived`) de toda la universidad por grupo y día con los campos existentes (sin `Clave`/`Créditos`), tema claro/oscuro, estados de carga/error/vacío y accesibilidad; corregir aliases CSS con prueba |
 | T21 | Migrar reportes, CSV y datos incompletos | Alta | Not Started | Dep. T20. Filtros por ámbito; paridad de conteos; autorización de endpoint; revisar escape y tratamiento seguro de contenido exportado |
 
 **Salida:** aceptación de recorridos reales y exportaciones consistentes; UI no presenta acceso indebido ni confirma cambios rechazados.
@@ -112,7 +112,7 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 
 T22 puede adelantarse con responsables de captura y no requiere esperar toda la UI; no implica acceso al origen. T25 debe crecer con cada módulo, no empezar al final; el estado global seguirá pendiente hasta configurar el entorno. T27 puede prepararse antes de UAT, pero no habilita el corte por sí sola.
 
-**Siguiente acción recomendada:** concretar T01–T03 y diseñar el modelo Firestore en T05 a partir de las reglas conocidas. La base ya está elegida; no reabrir SQL. No iniciar copia masiva ni crear recursos facturables antes de validar integridad y costos.
+**Siguiente acción recomendada:** iniciar **T06 (D1 · Primera demo local)** creando la aplicación base reproducible en Next.js/TypeScript con emuladores Firebase configurados localmente (sin crear recursos remotos ni copiar scripts faltantes).
 
 ## Criterio de actualización
 

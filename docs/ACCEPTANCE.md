@@ -1,6 +1,6 @@
 # Matriz de aceptación del sistema completo
 
-Fecha: 2026-11-12. Preparación de T01; ningún caso se declara ejecutado o aprobado.
+Fecha: 2026-11-23. Definición de T01/T03 confirmada por operación y rol; la ejecución integral en la aplicación destino queda pendiente de T06–T26 (la vertical técnica T05 ya probó en emulador local las invariantes críticas de AC11–AC21, AC27–AC28, AC30 y AC37).
 Objetivo: conservar las reglas del origen y convertir los requisitos F01–F12 del [PRD](PRD.md) en comprobaciones observables para el destino Firestore.
 
 ## Cómo utilizarla
@@ -8,7 +8,7 @@ Objetivo: conservar las reglas del origen y convertir los requisitos F01–F12 d
 - **Paridad:** regla observada estáticamente en SQL o acciones de referencia; falta demostrarla en el destino.
 - **Destino:** requisito ya documentado en el PRD, no necesariamente demostrado por el origen.
 - **Pendiente:** decisión o comprobación aún no resuelta; no constituye autorización para cambiar reglas.
-- Todos los casos están **sin ejecutar**. T01 sigue `In Progress`: preparar la matriz no equivale a aceptación institucional, a T05 aprobado ni a una aplicación implementada.
+- La matriz y las reglas por operación/rol de T01/T03 quedaron validadas para iniciar T06; la aceptación operativa completa de la aplicación destino se ejecutará y aprobará en T26/T29 (UAT).
 
 Las pruebas futuras deben entrar por el caso de uso o endpoint público, con fixtures sintéticos y estado aislado. Comprobar respuesta y estado persistido, incluido historial/auditoría cuando corresponda. Una mutación rechazada no debe dejar asignaciones, reservas o carga parcialmente modificadas. No usar datos ni cuentas anteriores.
 
@@ -19,13 +19,13 @@ Las pruebas futuras deben entrar por el caso de uso o endpoint público, con fix
 | AC01 | F01 / admin, coordinator | Cuenta activa con identidad válida inicia sesión; cierre, expiración y revocación impiden reutilizar la sesión según la política de sesión que se implemente. | Destino: PRD F01, T07–T08 |
 | AC02 | F01–F02 / sin sesión o cuenta inactiva | Solicitar directamente una lectura o mutación protegida se deniega; ocultar botones no cuenta como control. No persistir cambios rechazados. | Destino: PRD F01–F02 |
 | AC03 | F01 / cuenta nueva | Enviar metadatos de rol `admin` no concede privilegios. Solo la operación administrativa autorizada puede habilitar y asignar rol; el bootstrap inicial se comprueba aparte. | Paridad: [S03]; destino: T09 |
-| AC04 | F02 / coordinator | Permitir acceso a la carrera autorizada y a docentes vinculados. Una carrera no se comparte entre coordinadores. Con un docente vinculado a dos coordinadores de carreras distintas, cada uno puede consultar el docente sin obtener acceso al detalle de grupos ni asignaciones de la otra carrera. Denegar vínculos ajenos e inactivos. | Ámbitos confirmados por el usuario; paridad: [S02], [S03] |
+| AC04 | F02 / coordinator | Permitir acceso a la carrera autorizada y a docentes vinculados en grupos de trabajo (`draft`/`review`). Una carrera no se comparte entre coordinadores. Con un docente vinculado a dos coordinadores de carreras distintas, cada uno puede consultar el docente sin obtener acceso al detalle de grupos en `draft`/`review` ni edición de otra carrera; en grupos `final`/`archived`, todo usuario autenticado puede consultar su horario definido en solo lectura. Denegar vínculos ajenos e inactivos. | Ámbitos y vista general de horarios definidos confirmados por el usuario; paridad: [S02], [S03] |
 | AC05 | F03 / actor autorizado | Con varios perfiles requeridos basta una coincidencia del docente; sin requisitos no rechazar por perfil. Sin coincidencias rechazar la asignación. | Paridad: [S01], líneas 70–87 |
 | AC06 | F03 / actor autorizado | Un perfil requerido específico de la materia del grupo sustituye los requisitos generales para validar esa asignación. No exigir simultáneamente ambos conjuntos. | Paridad: [S01], líneas 70–87 |
 | AC07 | F03 / admin, coordinator | Consultar y mantener carreras, materias, perfiles y relaciones dentro del permiso de cada operación; rechazar referencias inexistentes o ajenas. La matriz detallada de altas, cambios y bajas se contrasta por operación antes de implementar T12. | Destino: PRD F02–F03; detalle pendiente |
 | AC08 | F04 / actor autorizado | No asignar docente inactivo ni materia del grupo inactiva; un rechazo no altera carga ni asignación anterior. | Paridad: [S01], líneas 30–38 y 62–67 |
 | AC09 | F05 / admin, coordinator | Bloque y plantilla activos y compatibles con modalidad/turno; coordinador no usa bloque personalizado de otro usuario. Preservar referencias históricas a catálogos inactivos. | Paridad: [S01], líneas 41–59; destino: PRD F05 |
-| AC10 | F05 / actor autorizado | Origen: módulo `0` significa sin módulo; sabatino/virtual_modular usan `1` o `2`, demás modalidades `0`. No reinterpretar automáticamente `0` como `null`; documentar el contrato destino antes de persistirlo. | Paridad: [S04], [S05]; representación destino pendiente |
+| AC10 | F05 / actor autorizado | Contrato destino confirmado: módulo como entero explícito `0 | 1 | 2` (`0` sin módulo; sabatino/`virtual_modular` usan `1` o `2`, demás modalidades `0`), sin convertir `0` a `null`. | Paridad: [S04], [S05]; contrato T03 confirmado y probado en T05 |
 
 ## 2. Asignaciones, carga y concurrencia
 
@@ -52,7 +52,7 @@ Los conflictos del validador SQL vigente tampoco se filtran por ciclo. Conservar
 
 | Caso | Función / actor | Escenario y resultado esperado | Base |
 |---|---|---|---|
-| AC23 | F06 / admin, coordinator | Grupos `final`/`archived` restringen mutaciones de materias y asignaciones. Contrastar excepciones administrativas concretas antes de implementarlas. El guard de aplicación admite `draft`, `review` y `active` heredado; no normalizar este último silenciosamente. | Paridad: [S09], [S10]; mapeo de `active` pendiente |
+| AC23 | F06 / admin, coordinator | Contrato limpio destino: estados `draft`, `review`, `final` y `archived` (se descarta `active` heredado al iniciar con datos nuevos). Los grupos `final`/`archived` bloquean mutaciones de materias y asignaciones para ambos roles y habilitan consulta de solo lectura de sus horarios definidos para todo usuario autenticado. | Paridad: [S09], [S10]; contrato T03 confirmado |
 | AC24 | F06 / coordinator | Permitir transición `draft` ↔ `review` en su ámbito; denegar cambios generales del grupo, finalizar/archivar y borrar materia reservados a administración. | Paridad: [S01], líneas 183–244 |
 | AC25 | F06 / admin | Finalizar exige materias completas, sin horas faltantes o excedidas, y aula salvo `virtual_modular`. Ante incumplimiento conservar estado anterior. | Paridad: [S07], líneas 214–231 |
 | AC26 | F06 / admin, coordinator | Borrado físico de grupo solo para admin; coordinador denegado. Incluso admin no borra grupo ligado a cohorte activa. En el caso permitido comprobar el resultado y auditoría; no generalizar esta excepción a otros borrados. | Paridad: [S07], líneas 418–446; [S02], política de borrado |
@@ -66,22 +66,33 @@ Los conflictos del validador SQL vigente tampoco se filtran por ciclo. Conservar
 | Caso | Función / actor | Escenario y resultado esperado | Base |
 |---|---|---|---|
 | AC31 | F04, F09 / admin, coordinator | Paneles y carga docente reflejan asignaciones activas y cambios confirmados; no contar canceladas ni mostrar éxito tras rechazo del servidor. Si un docente autorizado tiene 6 horas activas en la carrera del coordinador y 4 en otra, mostrar 10 horas totales y desglosar 6 y 4 horas con el coordinador correspondiente, sin permitir consultar grupos ni asignaciones individuales ajenas. | Destino: PRD F04/F09, T20; carga total y desglose por coordinador confirmados por el usuario |
-| AC32 | F09 / admin, coordinator | Consultar horarios de grupo, docente y aula dentro del ámbito autorizado; navegación coherente con permisos y estados de carga, error y vacío. Mantener temas y accesibilidad previstos en T20. | Destino: PRD F09, T20 |
+| AC32 | F09 / admin, coordinator | Consultar horarios de grupo, docente y aula dentro del ámbito autorizado para trabajo (`draft`/`review`), más página general de solo lectura con los horarios definidos (`final`/`archived`) de toda la universidad (grupo, día/horario, materia, docente y aula efectiva) usando únicamente los campos existentes (sin `Clave` ni `Créditos`). Estados de carga, error, vacío, temas y accesibilidad previstos en T20. | Destino: PRD F09, T20; alcance de consulta general confirmado por el usuario |
 | AC33 | F10 / actor autorizado | Reporte y CSV incluyen asignaciones activas, respetan filtro de grupo, ámbito y orden de referencia; conciliar filas y conteos con la vista. Mantener las diez columnas de referencia al adaptar T21. | Paridad: [S15], líneas 28–120 |
 | AC34 | F10 / actor autorizado | Exportar comillas, separadores y saltos de línea sin romper celdas; neutralizar fórmulas y prefijos peligrosos según el escape de referencia. No usar datos personales reales en fixtures. | Paridad: [S16]; destino: T21 |
 | AC35 | F02, F10 / sin sesión, inactivo o ámbito ajeno | Petición directa al endpoint CSV protegido debe denegarse sin revelar datos. El origen sin sesión devuelve encabezados: no usar ese resultado como prueba de denegación ni copiarlo como requisito. | Destino: PRD F02/F10; divergencia observada: [S15], [S17] |
 | AC36 | F10 / actor autorizado | Consulta de datos incompletos respeta ámbito y concilia sus indicadores con el estado académico; precisar cada indicador del origen antes de implementar T21. | Destino: PRD F10; detalle pendiente |
 | AC37 | F11 / actor autorizado | Cambios relevantes registran actor real, fecha, evento y datos anteriores/nuevos pertinentes. Asignaciones, grupos e historial no pierden auditoría por usar operaciones administrativas. Comprobar atomicidad con la mutación correspondiente. | Paridad: [S02], [S03], [S14]; destino: T11 |
 | AC38 | F12 / administrador inicial autorizado | Instancia vacía usa cuentas y catálogos nuevos; bootstrap no puede repetirse para obtener privilegios. Captura y reintentos conservan referencias válidas sin duplicados; no importar datos, cuentas ni hashes del origen. | Destino: PRD F12, T22–T24 |
-| AC39 | F11–F12 / responsable autorizado | Ensayar restauración/reversión en estado aislado y comprobar recuperación de relaciones y acceso. RPO/RTO, responsables y mecanismo compatible con presupuesto siguen pendientes; no usar producción como ensayo. | Destino: PRD F11/F12, T28 |
-| AC40 | Transversal / 6 usuarios simultáneos habituales, picos poco frecuentes de 10–20, unos 30 usuarios totales y 1 000–1 300 grupos activos por ciclo | Medir carga de consultas y mutaciones de recorridos representativos, p95 y operaciones de cada servicio con datos sintéticos del orden de volumen estimado y una ventana de trabajo concentrado de aproximadamente una semana por período de mayor actividad. No convertir las estimaciones en lecturas mensuales ni afirmar costo $0 sin medición y cuotas verificadas. | Estimación actualizada por el usuario; PRD §3–4, T02/T26 |
+| AC39 | F11–F12 / responsable autorizado | Ensayar restauración/reversión en estado aislado y comprobar recuperación de relaciones y acceso conforme a la línea base $0: respaldo exportado diario en semanas pico y semanal el resto del ciclo (RPO objetivo ≤ 24 h; recuperación manual objetivo el mismo día hábil). No usar producción como ensayo. | Destino: PRD F11/F12, T02/T28; línea base confirmada |
+| AC40 | Transversal / 6 usuarios simultáneos habituales, picos poco frecuentes de 10–20, unos 30 usuarios totales y 1 000–1 300 grupos activos por ciclo | Medir carga de consultas y mutaciones de recorridos representativos, p95 y operaciones de cada servicio con datos sintéticos del orden de volumen estimado y una ventana de trabajo concentrado de aproximadamente una semana por período de mayor actividad, validando en Chrome/Edge de escritorio (prioritario) y Chrome/Safari móvil. No convertir las estimaciones en lecturas mensuales ni afirmar costo $0 sin medición y cuotas verificadas. | Estimación y navegadores confirmados; PRD §3–4, T02/T26 |
+
+## Matriz de permisos por operación y rol (T01/T03 confirmada)
+
+| Dominio / operación | Administrador (`admin`) | Coordinador (`coordinator`) |
+|---|---|---|
+| Usuarios, roles, coordinadores y vínculos (`coordinatorCareers`, `coordinatorTeachers`) | Lectura y administración completa | Sin acceso de gestión; consulta únicamente su propio perfil/ámbito |
+| Carreras, ciclos escolares (incluida activación), aulas, plantillas, perfiles docentes y requisitos generales | Lectura y administración completa | Lectura de catálogos de su ámbito; bloques personalizados propios |
+| Docentes (`max_hours`, `teacher_available_profiles` y datos generales) | Lectura y administración completa | Lectura en ámbito; edita solo `max_hours` (≥ asignadas) y perfiles disponibles de docentes vinculados |
+| Cohortes e historial manual | Alta, consulta, corrección manual sin grupo, completar y archivar | Alta y consulta en carreras autorizadas; no completa ni archiva cohortes |
+| Grupos (`draft` / `review`) y materias del grupo | Alta, edición general, transición de estado, borrar materia, `required_profile_code`, finalizar, archivar y borrado físico (salvo cohorte activa, AC26) | Alta y consulta en carreras autorizadas; transición `draft` ↔ `review`; reduce/ajusta horas planeadas incluso bajo asignadas (AC22); sin edición general ni borrado |
+| Grupos definidos (`final` / `archived`) | Solo lectura en materias y asignaciones; visible en horario general de toda la universidad | Solo lectura en materias y asignaciones; visible para todo usuario autenticado en el horario general por día/grupo |
+| Asignaciones (alta, edición, cancelación en grupo abierto) | Permitido respetando invariantes | Permitido en carreras y docentes vinculados de su ámbito (AC19–AC20) |
+| Auditoría y reportes/CSV | Lectura completa dentro de política de auditoría | Reportes/CSV restringidos a su ámbito autorizado; sin lectura global de auditoría |
 
 ## Decisiones y evidencia pendientes
 
-- **T01:** validar los recorridos y la matriz por operación/rol; los casos redactados no son UAT completada.
-- **T02:** estimar frecuencia de consultas/cambios, duración de uso y volumen de datos; acordar zona horaria, calendario, dispositivos, responsables y objetivos de servicio/recuperación. No inferirlos de la zona horaria del equipo.
-- **T03:** clasificar activos antes de distribuirlos y detallar permisos de excepciones. No se inspeccionó ni importó la hoja de cálculo de referencia.
-- **T05:** definir representación destino de módulos/estados, consultas, coordinación compartida y límites transaccionales; probar AC11–AC21 y AC30 con persistencia real aislada. No basta una simulación en memoria para aprobar Firestore.
+- **T01–T03 y T05 cerrados en definición y vertical técnica:** matriz por operación/rol, contratos limpios (`draft|review|final|archived`, módulos `0|1|2`, sin `Clave`/`Créditos`), vista general de horarios definidos (`final`/`archived`), navegadores objetivo, línea base de respaldo $0 y prototipo T05 en emulador (38 pruebas). La ejecución de AC01–AC40 sobre la aplicación real comienza en T06–T26.
+- **Pendientes diferidos a tareas posteriores:** alcance de fechas de módulos sabatinos por cuatrimestre o carrera/grupo en T14 (PD-06); diez columnas CSV e indicadores de datos incompletos en T21 (PD-10); validación de hosting, cuotas y alertas en T27 (PD-11); ensayo real de respaldo/restauración en T28; y aprobación formal de salida por responsables antes de T29.
 
 ## Fuentes verificadas estáticamente
 
