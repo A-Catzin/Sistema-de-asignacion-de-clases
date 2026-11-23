@@ -63,10 +63,18 @@ export default async function DashboardPage() {
               .
             </p>
             <p className="text-sm text-muted">
-              Siguiente etapa: <strong>T09–T10</strong> (aprovisionamiento administrativo, políticas
-              por rol/ámbito y módulos de catálogos y planeación).
+              Siguiente etapa: <strong>T11</strong> (auditoría duradera) y luego catálogos base
+              (<strong>T12–T15</strong>).
             </p>
-            <div className="pt-2">
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              {user.role === "admin" ? (
+                <Link
+                  href="/admin"
+                  className="focus-ring rounded-md bg-primary px-3 py-1.5 text-xs font-semibold text-primary-foreground hover:bg-brandDeep"
+                >
+                  Gestión de usuarios
+                </Link>
+              ) : null}
               <Link href="/" className="focus-ring rounded text-xs font-medium text-brand hover:underline">
                 Ver estado del entorno local
               </Link>

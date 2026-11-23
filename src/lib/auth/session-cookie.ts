@@ -2,8 +2,22 @@ import type { NextRequest, NextResponse } from "next/server";
 import {
   SESSION_COOKIE_NAME,
   SESSION_DURATION_SECONDS,
-  shouldUseSecureCookie
+  shouldUseSecureCookie,
+  validateCsrfHeaders
 } from "@/lib/auth/session-policy";
+
+export const noStoreHeaders = {
+  "Cache-Control": "no-store"
+} as const;
+
+export function checkRequestCsrf(request: NextRequest) {
+  return validateCsrfHeaders({
+    origin: request.headers.get("origin"),
+    host: request.headers.get("host"),
+    secFetchSite: request.headers.get("sec-fetch-site"),
+    requestedWith: request.headers.get("x-requested-with")
+  });
+}
 
 export function isSecureSessionRequest(request: NextRequest): boolean {
   const forwardedProto = request.headers.get("x-forwarded-proto");

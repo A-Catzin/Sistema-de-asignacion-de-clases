@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
     "test:auth:emulator": "node tests/integration/auth-session.integration.ts",
+    "test:provisioning:emulator": "node tests/integration/provisioning-and-scope.integration.ts",
     "emulators:start": "firebase emulators:start --only auth,firestore --project demo-sistema-asignacion"
   },
   "dependencies": {

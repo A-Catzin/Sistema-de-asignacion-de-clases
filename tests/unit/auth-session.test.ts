@@ -118,6 +118,21 @@ describe("T07/T08 auth session & CSRF policy", () => {
       reason: "privileges-changed"
     });
 
+    expect(
+      evaluateProfileForSession(
+        { ...activeAdmin, privilegesUpdatedAtMs: 0 },
+        1_700_000
+      )
+    ).toEqual({
+      ok: true,
+      user: {
+        uid: activeAdmin.uid,
+        email: activeAdmin.email,
+        displayName: activeAdmin.displayName,
+        role: "admin"
+      }
+    });
+
     expect(evaluateProfileForSession(activeAdmin, 1_700_000)).toEqual({
       ok: true,
       user: {

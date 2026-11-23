@@ -66,15 +66,17 @@ En dos terminales desde la raíz:
    - `http://127.0.0.1:3000` — tablero de estado del entorno local (`/api/health` en JSON).
    - `http://127.0.0.1:3000/login` — inicio de sesión con Firebase Auth (emulador) y emisión de cookie `__session` en `/api/auth/session`.
    - `http://127.0.0.1:3000/dashboard` — panel protegido por sesión verificada en servidor.
+   - `http://127.0.0.1:3000/admin` — aprovisionamiento administrativo y control de cuentas (solo `admin` activo; consulta de auditoría en `/api/admin/audit`).
 
 ## Comandos de calidad y pruebas
 
 ```sh
-npm run typecheck          # tsc --noEmit
-npm run lint               # eslint .
-npm test                   # pruebas unitarias con Vitest (tests/unit/)
-npm run build              # compilación de producción Next.js
-npm run test:auth:emulator # prueba de integración Auth/Sesión/CSRF contra emuladores y servidor activo
+npm run typecheck                  # tsc --noEmit
+npm run lint                       # eslint .
+npm test                           # pruebas unitarias con Vitest (tests/unit/)
+npm run build                      # compilación de producción Next.js
+npm run test:auth:emulator         # integración Auth/Sesión/CSRF contra emuladores y servidor activo
+npm run test:provisioning:emulator # integración aprovisionamiento admin, ámbito y RBAC contra emuladores
 ```
 
 Para las pruebas aisladas del prototipo de integridad/ciclos (`prototypes/assignment-integrity/`), consultar [README del prototipo](../prototypes/assignment-integrity/README.md).

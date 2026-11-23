@@ -5,27 +5,19 @@ import {
   revokeServerSession,
   verifyServerSessionCookie
 } from "@/lib/auth/server-session";
-import { clearSessionCookie, setSessionCookie } from "@/lib/auth/session-cookie";
-import { SESSION_COOKIE_NAME, validateCsrfHeaders } from "@/lib/auth/session-policy";
+import {
+  checkRequestCsrf,
+  clearSessionCookie,
+  noStoreHeaders,
+  setSessionCookie
+} from "@/lib/auth/session-cookie";
+import { SESSION_COOKIE_NAME } from "@/lib/auth/session-policy";
 
 export const dynamic = "force-dynamic";
-
-const noStoreHeaders = {
-  "Cache-Control": "no-store"
-};
 
 const createSessionBodySchema = z.object({
   idToken: z.string().min(1)
 });
-
-function checkCsrf(request: NextRequest) {
-  return validateCsrfHeaders({
-    origin: request.headers.get("origin"),
-    host: request.headers.get("host"),
-    secFetchSite: request.headers.get("sec-fetch-site"),
-    requestedWith: request.headers.get("x-requested-with")
-  });
-}
 
 export async function GET(request: NextRequest) {
   const cookieValue = request.cookies.get(SESSION_COOKIE_NAME)?.value;
@@ -49,7 +41,7 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-  const csrf = checkCsrf(request);
+  const csrf = checkRequestCsrf(request);
   if (!csrf.ok) {
     return NextResponse.json(
       { ok: false, reason: csrf.reason, error: "Solicitud rechazada por validación de origen." },
@@ -105,7 +97,7 @@ export async function POST(request: NextRequest) {
 }
 
 export async function DELETE(request: NextRequest) {
-  const csrf = checkCsrf(request);
+  const csrf = checkRequestCsrf(request);
   if (!csrf.ok) {
     return NextResponse.json(
       { ok: false, reason: csrf.reason, error: "Solicitud rechazada por validación de origen." },
