@@ -6,13 +6,13 @@
 |---|---|
 | Versión documental | 1.3.0 |
 | Total de tareas | 30 |
-| Completed | 13 |
+| Completed | 14 |
 | In Progress | 0 |
-| Not Started | 17 |
-| Avance por conteo del plan completo | 13/30 = 43,3% |
-| Implementación de aplicación destino | Fases 0–2 y T12 (oferta académica y requisitos) verificadas localmente; siguiente: T13 (docentes y carga) |
+| Not Started | 16 |
+| Avance por conteo del plan completo | 14/30 = 46,7% |
+| Implementación de aplicación destino | Fases 0–2 y T12–T13 (oferta académica y docentes/carga) verificadas localmente; siguiente: T14 (aulas, plantillas y bloques) |
 
-Los entregables terminados son **Fases 0–2 completas (T00–T11) y T12 de Fase 3 (oferta académica y requisitos)**. El porcentaje no representa esfuerzo ni funcionalidades migradas a la app Web final. Las funciones de referencia no cuentan como tareas Firebase terminadas. Se trabaja hasta terminar el proyecto completo; las fases no son entregas MVP. Se inicia con datos nuevos y reglas anteriores. Presupuesto objetivo: $0; Blaze permitido sin autorización de cargos.
+Los entregables terminados son **Fases 0–2 completas (T00–T11) y T12–T13 de Fase 3 (oferta académica y docentes/carga)**. El porcentaje no representa esfuerzo ni funcionalidades migradas a la app Web final. Las funciones de referencia no cuentan como tareas Firebase terminadas. Se trabaja hasta terminar el proyecto completo; las fases no son entregas MVP. Se inicia con datos nuevos y reglas anteriores. Presupuesto objetivo: $0; Blaze permitido sin autorización de cargos.
 
 **Estados permitidos:** `Completed`, `In Progress`, `Not Started`. Cambiar un estado requiere evidencia; estar bloqueada no significa estar en progreso. Registrar el bloqueo en Notas. Prioridades Alta/Media/Baja son propuestas y deben validarse institucionalmente.
 
@@ -58,7 +58,7 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 | ID | Tarea | Prioridad | Estado | Notas / Entregable |
 |---|---|---|---|---|
 | T12 | Migrar oferta académica y requisitos | Alta | Completed | Dep. T10–T11. Dominio puro de oferta, `Clave` de materia normalizada y compatibilidad AC05/AC06 (`src/domain/academic/academic-offer.ts`), servicio transaccional con llaves únicas (`careerCodes`, `subjectCodes` por carrera, `subjectKeys`) y auditoría atómica (`src/application/academic/offer-service.ts`), rutas `/api/academic/{profiles,careers,subjects,subjects/[id]}` y vista `/carreras` con `Clave` (sin `Créditos`). Validación relacional de carreras/perfiles, filtros por ámbito para coordinador y ajuste de horas base permitido en su carrera. Verificado con `typecheck`, `lint`, `vitest` (25/25, incl. `tests/unit/academic-offer.test.ts`), `next build` y `npm run test:academic:emulator`. |
-| T13 | Migrar docentes y control de carga | Alta | Not Started | Dep. T12. Perfiles disponibles, responsable, horas máximas y lectura de carga; no introducir carga de expedientes sin alcance |
+| T13 | Migrar docentes y control de carga | Alta | Completed | Dep. T12. Dominio puro de docentes, tope `maxHours` ≥ horas activas y desglose por coordinador sin filtrar grupos ajenos AC18/RN-04/AC31 (`src/domain/teachers/teacher-catalog.ts`), servicio transaccional con `teacherNames`, `teacherAvailableProfiles`, `coordinatorTeachers` y auditoría atómica (`src/application/teachers/teacher-service.ts`), rutas `/api/teachers` y `/api/teachers/[id]` y vista `/docentes` sin campo de expedientes. Verificado con `typecheck`, `lint`, `vitest` (29/29, incl. `tests/unit/teachers.test.ts`), `next build` y `npm run test:teachers:emulator`. |
 | T14 | Migrar aulas, plantillas y bloques | Alta | Not Started | Dep. T12. Modalidad/turno, intervalos, módulos `0|1|2` y utilidades de fechas de módulo con sobrescritura para casos especiales (PD-06); catálogos inactivos conservan referencias históricas |
 | T15 | Migrar ciclos, grupos y materias del grupo | Alta | Not Started | Dep. T12–T14. Fechas específicas predeterminadas de módulos 1 y 2 en el ciclo más opción de fecha especial; estados `draft|review|final|archived` (sin `active` heredado); preservar `Clave` en materias del grupo y excepciones T03 |
 
@@ -112,7 +112,7 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 
 T22 puede adelantarse con responsables de captura y no requiere esperar toda la UI; no implica acceso al origen. T25 debe crecer con cada módulo, no empezar al final; el estado global seguirá pendiente hasta configurar el entorno. T27 puede prepararse antes de UAT, pero no habilita el corte por sí sola.
 
-**Siguiente acción recomendada:** iniciar **T13** (migrar docentes y control de carga: perfiles disponibles, responsable, horas máximas y lectura de carga total/desglosada).
+**Siguiente acción recomendada:** iniciar **T14** (migrar aulas, plantillas, bloques, intervalos, módulos `0|1|2` y soporte de fechas de módulo con sobrescritura para casos especiales).
 
 ## Criterio de actualización
 
