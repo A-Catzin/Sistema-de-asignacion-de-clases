@@ -6,13 +6,13 @@
 |---|---|
 | Versión documental | 1.3.0 |
 | Total de tareas | 30 |
-| Completed | 12 |
+| Completed | 13 |
 | In Progress | 0 |
-| Not Started | 18 |
-| Avance por conteo del plan completo | 12/30 = 40,0% |
-| Implementación de aplicación destino | Fase 2 completa (T07–T11: Auth, sesión segura, aprovisionamiento, RBAC/ámbito y auditoría duradera) verificada localmente; siguiente: Fase 3 (T12–T15) |
+| Not Started | 17 |
+| Avance por conteo del plan completo | 13/30 = 43,3% |
+| Implementación de aplicación destino | Fases 0–2 y T12 (oferta académica y requisitos) verificadas localmente; siguiente: T13 (docentes y carga) |
 
-Los entregables terminados son **Fase 0 completa (T00–T03), Fase 1 completa (T04–T06) y Fase 2 completa (T07–T11)**. El porcentaje no representa esfuerzo ni funcionalidades migradas a la app Web final. Las funciones de referencia no cuentan como tareas Firebase terminadas. Se trabaja hasta terminar el proyecto completo; las fases no son entregas MVP. Se inicia con datos nuevos y reglas anteriores. Presupuesto objetivo: $0; Blaze permitido sin autorización de cargos.
+Los entregables terminados son **Fases 0–2 completas (T00–T11) y T12 de Fase 3 (oferta académica y requisitos)**. El porcentaje no representa esfuerzo ni funcionalidades migradas a la app Web final. Las funciones de referencia no cuentan como tareas Firebase terminadas. Se trabaja hasta terminar el proyecto completo; las fases no son entregas MVP. Se inicia con datos nuevos y reglas anteriores. Presupuesto objetivo: $0; Blaze permitido sin autorización de cargos.
 
 **Estados permitidos:** `Completed`, `In Progress`, `Not Started`. Cambiar un estado requiere evidencia; estar bloqueada no significa estar en progreso. Registrar el bloqueo en Notas. Prioridades Alta/Media/Baja son propuestas y deben validarse institucionalmente.
 
@@ -25,9 +25,9 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 | ID | Tarea | Prioridad | Estado | Notas / Entregable |
 |---|---|---|---|---|
 | T00 | Analizar referencia y crear suite modular | Alta | Completed | Seis documentos en `docs/`; distinción observado/propuesto/pendiente, enlaces y consistencia estructural revisados. Sin pruebas de runtime |
-| T01 | Validar casos de aceptación del alcance completo | Alta | Completed | Dep. T00. [Matriz de 40 casos](ACCEPTANCE.md) y matriz confirmada por operación y rol, incluida la consulta general de solo lectura de horarios definidos (`final`/`archived`) para todo usuario autenticado sin agregar `Clave` ni `Créditos` a materias. La ejecución en la aplicación destino queda en T06–T26 y UAT en T26/T29. |
+| T01 | Validar casos de aceptación del alcance completo | Alta | Completed | Dep. T00. [Matriz de 40 casos](ACCEPTANCE.md) y matriz confirmada por operación y rol, incluida la consulta general de solo lectura de horarios definidos (`final`/`archived`) para todo usuario autenticado, incorporando `Clave` en materias (sin `Créditos`). La ejecución en la aplicación destino queda en T06–T26 y UAT en T26/T29. |
 | T02 | Acordar restricciones y responsables | Alta | Completed | Dep. T01. Presupuesto $0, zona horaria de Cancún, ~30 usuarios totales (6 habituales simultáneos, picos 10–20) y 1 000–1 300 grupos activos por ciclo en ventanas pico de ~1 semana (noviembre, febrero/marzo y agosto/septiembre). Navegadores: Chrome/Edge actuales en computadora (prioritario) y Chrome/Safari en celular. Respaldo compatible con $0: exportación diaria en semanas pico y semanal el resto del ciclo (RPO ≤ 24 h; recuperación mismo día hábil, a ensayar en T28). Sin fechas fijas; el solicitante validará el MVP interno y designará la aprobación formal de producción antes de T29. |
-| T03 | Especificar reglas preservadas y revisar privacidad del paquete | Alta | Completed | Dep. T01. Reglas y excepciones confirmadas (AC04, AC22, AC26, AC31) más consulta general de solo lectura de horarios `final`/`archived` para usuarios autenticados (aislamiento estricto en `draft`/`review`). Contratos limpios por iniciar con datos nuevos: estados de grupo `draft|review|final|archived` (sin `active` heredado), módulos `0|1|2` y materias sin `Clave`/`Créditos`. Paquete `/Migracion` y su hoja de cálculo permanecen excluidos de Git, sin importación ni publicación. |
+| T03 | Especificar reglas preservadas y revisar privacidad del paquete | Alta | Completed | Dep. T01. Reglas y excepciones confirmadas (AC04, AC22, AC26, AC31) más consulta general de solo lectura de horarios `final`/`archived` para usuarios autenticados (aislamiento estricto en `draft`/`review`). Contratos limpios por iniciar con datos nuevos: estados de grupo `draft|review|final|archived` (sin `active` heredado), módulos `0|1|2` con fechas específicas por ciclo más opción para casos especiales (PD-06), y materias con `Clave` única por carrera (sin `Créditos`). Paquete `/Migracion` y su hoja de cálculo permanecen excluidos de Git, sin importación ni publicación. |
 
 **Salida:** alcance completo confirmado, detalles operativos cuantificables y excepciones documentadas. No publicar contenidos de `/Migracion` para conseguir esta aprobación.
 
@@ -57,10 +57,10 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 
 | ID | Tarea | Prioridad | Estado | Notas / Entregable |
 |---|---|---|---|---|
-| T12 | Migrar oferta académica y requisitos | Alta | Not Started | Dep. T10–T11. Carreras, materias, perfiles, vínculos y validación de relaciones; filtros por ámbito |
+| T12 | Migrar oferta académica y requisitos | Alta | Completed | Dep. T10–T11. Dominio puro de oferta, `Clave` de materia normalizada y compatibilidad AC05/AC06 (`src/domain/academic/academic-offer.ts`), servicio transaccional con llaves únicas (`careerCodes`, `subjectCodes` por carrera, `subjectKeys`) y auditoría atómica (`src/application/academic/offer-service.ts`), rutas `/api/academic/{profiles,careers,subjects,subjects/[id]}` y vista `/carreras` con `Clave` (sin `Créditos`). Validación relacional de carreras/perfiles, filtros por ámbito para coordinador y ajuste de horas base permitido en su carrera. Verificado con `typecheck`, `lint`, `vitest` (25/25, incl. `tests/unit/academic-offer.test.ts`), `next build` y `npm run test:academic:emulator`. |
 | T13 | Migrar docentes y control de carga | Alta | Not Started | Dep. T12. Perfiles disponibles, responsable, horas máximas y lectura de carga; no introducir carga de expedientes sin alcance |
-| T14 | Migrar aulas, plantillas y bloques | Alta | Not Started | Dep. T12. Modalidad/turno, intervalos y módulos; catálogos inactivos conservan referencias históricas |
-| T15 | Migrar ciclos, grupos y materias del grupo | Alta | Not Started | Dep. T12–T14. Estados editables y cerrados; revisar `active` heredado; preservar excepciones T03 |
+| T14 | Migrar aulas, plantillas y bloques | Alta | Not Started | Dep. T12. Modalidad/turno, intervalos, módulos `0|1|2` y utilidades de fechas de módulo con sobrescritura para casos especiales (PD-06); catálogos inactivos conservan referencias históricas |
+| T15 | Migrar ciclos, grupos y materias del grupo | Alta | Not Started | Dep. T12–T14. Fechas específicas predeterminadas de módulos 1 y 2 en el ciclo más opción de fecha especial; estados `draft|review|final|archived` (sin `active` heredado); preservar `Clave` en materias del grupo y excepciones T03 |
 
 **Salida:** entidades consultables/editables por usuarios autorizados y relaciones consistentes. Este bloque no incluye todavía avance automático de cohortes.
 
@@ -68,7 +68,7 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 
 | ID | Tarea | Prioridad | Estado | Notas / Entregable |
 |---|---|---|---|---|
-| T16 | Implementar alta, edición y cancelación de asignaciones | Alta | Not Started | Dep. T15. Perfiles compatibles, carga, aula efectiva, estados y unicidad activa; cancelación conserva historia |
+| T16 | Implementar alta, edición y cancelación de asignaciones | Alta | Not Started | Dep. T15. Perfiles compatibles, carga, aula efectiva, estados, unicidad activa y opción de fecha especial para casos particulares de módulo; cancelación conserva historia |
 | T17 | Probar y endurecer exclusión concurrente | Alta | Not Started | Dep. T16. Dos solicitudes incompatibles: solo una confirma; casos docente/grupo/aula, edición/cancelación, bloques solapados y módulos; verificar persistencia y auditoría |
 | T18 | Migrar cohortes e historial | Alta | Not Started | Dep. T15. Alcance/carrera/cuatrimestre, historia manual y materias cursadas; evitar incompatibilidad con materias activas |
 | T19 | Implementar activación y avance idempotente | Alta | Not Started | Dep. T17–T18. Repetir activación sin duplicados; recuperación de fallo parcial y límites de transacción documentados |
@@ -79,7 +79,7 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 
 | ID | Tarea | Prioridad | Estado | Notas / Entregable |
 |---|---|---|---|---|
-| T20 | Adaptar navegación, paneles y horarios | Media | Not Started | Dep. T16, T18–T19. Reusar primitivas y tokens; vista general de solo lectura de horarios definidos (`final`/`archived`) de toda la universidad por grupo y día con los campos existentes (sin `Clave`/`Créditos`), tema claro/oscuro, estados de carga/error/vacío y accesibilidad; corregir aliases CSS con prueba |
+| T20 | Adaptar navegación, paneles y horarios | Media | Not Started | Dep. T16, T18–T19. Reusar primitivas y tokens; vista general de solo lectura de horarios definidos (`final`/`archived`) de toda la universidad por grupo y día incluyendo `Clave` de materia y fechas de módulo aplicables (sin `Créditos`), tema claro/oscuro, estados de carga/error/vacío y accesibilidad; corregir aliases CSS con prueba |
 | T21 | Migrar reportes, CSV y datos incompletos | Alta | Not Started | Dep. T20. Filtros por ámbito; paridad de conteos; autorización de endpoint; revisar escape y tratamiento seguro de contenido exportado |
 
 **Salida:** aceptación de recorridos reales y exportaciones consistentes; UI no presenta acceso indebido ni confirma cambios rechazados.
@@ -112,11 +112,11 @@ Para revisar avances ejecutables, consultar el [plan de MVP interno y demostraci
 
 T22 puede adelantarse con responsables de captura y no requiere esperar toda la UI; no implica acceso al origen. T25 debe crecer con cada módulo, no empezar al final; el estado global seguirá pendiente hasta configurar el entorno. T27 puede prepararse antes de UAT, pero no habilita el corte por sí sola.
 
-**Siguiente acción recomendada:** iniciar **Fase 3 (T12: migrar oferta académica y requisitos — carreras, materias, perfiles y vínculos)** con filtros por ámbito y auditoría duradera integrada.
+**Siguiente acción recomendada:** iniciar **T13** (migrar docentes y control de carga: perfiles disponibles, responsable, horas máximas y lectura de carga total/desglosada).
 
 ## Criterio de actualización
 
-**Dimensionamiento de T02:** el ejemplo de horario entre semana contiene 5 materias y 13 bloques semanales. En sabatino se reportaron grupos con 2 o 3 materias, con variación. Los módulos sabatinos 1 y 2 se definen por fechas específicas del mismo cuatrimestre; se difirió decidir si esas fechas son comunes o varían por carrera o grupo. Retomar esa decisión al diseñar el calendario de T14; véase [SRS](SRS.md), PD-06.
+**Dimensionamiento de T02:** el ejemplo de horario entre semana contiene 5 materias y 13 bloques semanales. En sabatino se reportaron grupos con 2 o 3 materias, con variación. Los módulos 1 y 2 usan las mismas fechas específicas predeterminadas a nivel del ciclo escolar, con una opción para registrar fechas personalizadas en casos especiales; véase [SRS](SRS.md), PD-06.
 
 - Una tarea solo pasa a Completed cuando tiene entregable y checks observados; registrar referencia de cambio y resultado en notas.
 - Actualizar los cuatro conteos y los porcentajes cuando cambie un estado.

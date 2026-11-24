@@ -101,13 +101,13 @@ Prioridades de ejecución: **P0** condición de integridad/salida; **P1** parida
 |---|---|---|---|---|
 | F01 | Sesión y aprovisionamiento administrado | P0 / proyecto completo | Sin privilegios por metadatos; usuario inactivo denegado; cierre y revocación probados | T07–T09 |
 | F02 | Permisos por rol y ámbito | P0 / proyecto completo | Denegación directa de consulta/mutación ajena, no solo ocultar controles | T10 |
-| F03 | Carreras, materias, requisitos y perfiles | P1 / proyecto completo | Relaciones válidas; compatibilidad con alguno de los perfiles requeridos | T12 |
+| F03 | Carreras, materias, requisitos y perfiles | P1 / proyecto completo | Relaciones válidas, `Clave` de materia única por carrera (sin `Créditos`) y compatibilidad con alguno de los perfiles requeridos | T12 |
 | F04 | Docentes y carga | P0 / proyecto completo | Límite de carga preservado, incluida edición concurrente | T13, T15–T17 |
-| F05 | Aulas, bloques, modalidades y turnos | P1 / proyecto completo | Selección válida; conservar referencias históricas inactivas | T14 |
-| F06 | Grupos y materias por ciclo | P0 / proyecto completo | Estados editables/cerrados aplicados en servidor | T15 |
+| F05 | Aulas, bloques, modalidades y turnos | P1 / proyecto completo | Selección válida; fechas específicas por ciclo para módulos 1 y 2 más opción de fecha especial para casos particulares; conservar referencias históricas inactivas | T14 |
+| F06 | Grupos y materias por ciclo | P0 / proyecto completo | Estados editables/cerrados aplicados en servidor y fechas predeterminadas de módulos 1 y 2 en el ciclo | T15 |
 | F07 | Asignaciones y conflictos | P0 / proyecto completo | Rechazo de cruces docente/grupo/aula y exceso de carga; cancelación conserva historial | T16–T17 |
 | F08 | Cohortes e historial | P0 / proyecto completo | Avance idempotente y exclusión de materias cursadas/activas incompatibles | T18–T19 |
-| F09 | Horarios y paneles por rol | P1 / proyecto completo | Datos y navegación limitados al alcance real en trabajo (`draft`/`review`), más consulta general de solo lectura de horarios definidos (`final`/`archived`) de toda la universidad para usuarios autenticados con los campos existentes (sin `Clave` ni `Créditos`) | T20 |
+| F09 | Horarios y paneles por rol | P1 / proyecto completo | Datos y navegación limitados al alcance real en trabajo (`draft`/`review`), más consulta general de solo lectura de horarios definidos (`final`/`archived`) de toda la universidad para usuarios autenticados (incluye `Clave` de materia, sin `Créditos`) | T20 |
 | F10 | Reportes, CSV y datos incompletos | P1 / proyecto completo | Exportación autorizada y conciliada con las vistas | T21 |
 | F11 | Auditoría y recuperación | P0 / proyecto completo | Actor real, fecha y cambio relevantes; restauración ensayada | T11, T28 |
 | F12 | Inicialización de datos y cuentas nuevos | P0 / proyecto completo | Catálogos nuevos validados, administrador inicial seguro y reinicialización de pruebas sin duplicados | T22–T24, T28–T29 |

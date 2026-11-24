@@ -114,17 +114,17 @@ Los identificadores RF son propios de este SRS; F y AC conservan los identificad
 
 | ID | Requisito | Trazabilidad |
 |---|---|---|
-| RF-05 | Consultar y mantener carreras, materias, perfiles y sus relaciones con referencias válidas y permisos por operación. La matriz detallada de mantenimiento permanece pendiente. | F03; AC07 |
+| RF-05 | Consultar y mantener carreras, materias (con `Clave` única por carrera, ej. `ISC06`, y sin `Créditos`), perfiles y sus relaciones con referencias válidas y permisos por operación conforme a la matriz T01/T03. | F03; AC07 |
 | RF-06 | Validar compatibilidad docente: basta coincidir con alguno de los perfiles requeridos; sin requisitos no se rechaza por perfil. Un requisito específico de materia del grupo sustituye al general para esa asignación. | F03; AC05–AC06 |
 | RF-07 | Gestionar docentes, perfiles disponibles, responsable y carga máxima. No asignar docentes ni materias de grupo inactivos. | F04; AC04, AC08, AC18 |
-| RF-08 | Gestionar aulas, plantillas y bloques de horario con modalidad, turno, día, intervalo, actividad y módulo; preservar referencias históricas a recursos inactivos. | F05; AC09–AC10 |
+| RF-08 | Gestionar aulas, plantillas y bloques de horario con modalidad, turno, día, intervalo, actividad y módulo (`0 | 1 | 2`); preservar referencias históricas a recursos inactivos. | F05; AC09–AC10 |
 | RF-09 | Validar bloque y plantilla activos y compatibles; impedir al coordinador usar bloques personalizados de otro usuario. | F05; AC09 |
 
 ### 5.3 Grupos y ciclos
 
 | ID | Requisito | Trazabilidad |
 |---|---|---|
-| RF-10 | Gestionar grupos y sus materias por ciclo. Crear grupo o cambiar su ciclo requiere ciclo activo; el estado del ciclo y su indicador de actividad deben ser coherentes. | F06; AC27 |
+| RF-10 | Gestionar grupos y sus materias por ciclo, incluyendo en cada ciclo escolar las fechas específicas predeterminadas de los módulos 1 y 2 y permitiendo una fecha especial opcional cuando exista un caso particular. Crear grupo o cambiar su ciclo requiere ciclo activo; el estado del ciclo y su indicador de actividad deben ser coherentes. | F06; AC10, AC27 |
 | RF-11 | Aplicar bloqueo de mutaciones en materias y asignaciones para grupos `final` y `archived` en ambos roles. Contrato destino confirmado con estados `draft`, `review`, `final` y `archived`, descartando el valor heredado `active` al iniciar con datos nuevos. | F06; AC23 |
 | RF-12 | Permitir al coordinador la transición `draft` ↔ `review` dentro de su ámbito; reservar a administración cambios generales del grupo, finalización/archivo y borrado de materia según la regla de referencia. | F06; AC24 |
 | RF-13 | Para finalizar un grupo, exigir materias completas, sin horas faltantes ni excedidas, y aula salvo modalidad `virtual_modular`. Si falla, conservar el estado previo. | F06; AC25 |
@@ -157,7 +157,7 @@ Los identificadores RF son propios de este SRS; F y AC conservan los identificad
 | ID | Requisito | Trazabilidad |
 |---|---|---|
 | RF-27 | Mostrar paneles y carga con asignaciones activas y cambios confirmados; excluir canceladas y no mostrar éxito tras un rechazo. Para un docente autorizado y compartido, mostrar la carga total y el desglose de horas activas por coordinador, sin abrir el acceso a grupos ni registros individuales de asignación de otra carrera. | F04, F09; AC31 |
-| RF-28 | Consultar horarios por grupo, docente y aula dentro del ámbito autorizado para trabajo (`draft`/`review`), e incluir una vista general de solo lectura de horarios definidos (`final`/`archived`) de toda la universidad por grupo y día para todos los usuarios autenticados, mostrando intervalo, materia, docente y aula efectiva con los campos ya existentes (sin `Clave` ni `Créditos`). | F09; AC32; DESIGN |
+| RF-28 | Consultar horarios por grupo, docente y aula dentro del ámbito autorizado para trabajo (`draft`/`review`), e incluir una vista general de solo lectura de horarios definidos (`final`/`archived`) de toda la universidad por grupo y día para todos los usuarios autenticados, mostrando intervalo, `Clave`, materia, docente, módulo/fechas aplicables y aula efectiva (sin `Créditos`). | F09; AC32; DESIGN |
 | RF-29 | Exportar reportes y CSV de asignaciones activas con filtros, ámbito, orden y diez columnas de referencia; conciliar filas y conteos con las vistas. Detallar el contrato exacto durante T21. | F10; AC33 |
 | RF-30 | Escapar comillas, separadores y saltos de línea y neutralizar contenido interpretable como fórmulas conforme al contrato de exportación de referencia. | F10; AC34 |
 | RF-31 | Presentar datos incompletos e indicadores coherentes con el estado académico y el ámbito; el catálogo exacto de indicadores permanece pendiente. | F10; AC36 |
@@ -171,7 +171,7 @@ Los identificadores RF son propios de este SRS; F y AC conservan los identificad
 |---|---|---|
 | RN-01 | 09:00–10:00 y 09:30–10:30 se solapan; 09:00–10:00 y 10:00–11:00 no. Igual horario en días diferentes tampoco constituye cruce. | AC11–AC14 |
 | RN-02 | Módulos positivos distintos `1`/`2` permiten coexistencia horaria; mismo módulo o ausencia de módulo mantienen la comprobación para docente, grupo y aula. | AC15 |
-| RN-03 | En el origen, ausencia de módulo es `0`; sabatino/`virtual_modular` utilizan `1` o `2`, otras modalidades `0`. En sabatino, los módulos 1 y 2 corresponden a fechas específicas dentro de un mismo cuatrimestre. Queda por definir el ámbito y la configuración del calendario, sin cambiar la semántica de conflictos documentada. | AC10; fechas específicas confirmadas por el usuario |
+| RN-03 | Ausencia de módulo se representa con `0`; sabatino/`virtual_modular` utilizan `1` o `2` y demás modalidades `0`. Los módulos 1 y 2 usan fechas específicas predeterminadas comunes al ciclo escolar, con opción de capturar una fecha especial para casos particulares sin alterar la semántica base de cruces de RN-02. | AC10; PD-06 confirmado por el usuario |
 | RN-04 | Ni carga ni conflictos del validador de referencia se particionan por ciclo. Limitar la exclusión a un ciclo sería un cambio de negocio, no una optimización transparente. | AC18; nota posterior a AC22 |
 | RN-05 | Inactividad de catálogos no elimina referencias históricas; cancelar asignaciones tampoco elimina historial. | AC09, AC20 |
 | RN-06 | La excepción de reducir horas planeadas no elimina la validación de completitud al finalizar grupos. | AC22, AC25 |
@@ -200,11 +200,11 @@ No se fijan porcentajes de disponibilidad, tiempos de respuesta, navegadores sop
 | Conjunto | Información / relaciones necesarias |
 |---|---|
 | Identidad y ámbito | Cuenta, perfil, rol, actividad, carreras y docentes autorizados |
-| Oferta académica | Carreras, materias, perfiles requeridos y requisitos específicos de materia del grupo |
+| Oferta académica | Carreras, materias con `Clave` única por carrera (sin `Créditos`), perfiles requeridos y requisitos específicos de materia del grupo |
 | Docentes | Actividad, perfiles disponibles, responsable, máximo de horas y carga activa |
 | Recursos horarios | Aulas, plantillas, bloques, día, intervalo, modalidad, turno y módulo |
-| Planeación | Ciclos, grupos, estados, aula del grupo y materias con horas planeadas |
-| Asignaciones | Materia del grupo, docente, bloque, horas manuales, aula efectiva y estado |
+| Planeación | Ciclos (con fechas específicas predeterminadas de módulos 1 y 2), grupos, estados, aula del grupo, materias con horas planeadas y sobrescritura opcional de fechas de módulo para casos especiales |
+| Asignaciones | Materia del grupo, docente, bloque, horas manuales, aula efectiva, fecha especial opcional y estado |
 | Seguimiento | Cohortes, grupos asociados e historial de materias, distinguiendo entradas manuales |
 | Trazabilidad | Actor, fecha, evento, entidad, correlación y valores pertinentes |
 
@@ -266,7 +266,7 @@ El cierre requiere responsables y decisiones abiertas resueltos, pruebas funcion
 | PD-03 | Navegadores, zona horaria y ventanas pico | **Resuelto en T02:** Cancún; picos en nov, feb/mar y ago/sep (~1 semana); Chrome/Edge en escritorio (prioritario) y Chrome/Safari en móvil; sin fechas fijas de lanzamiento. |
 | PD-04 | Respaldo/RPO/RTO y responsables nominales de aprobación | **Respaldo resuelto en T02** (exportado diario en pico / semanal resto, RPO ≤ 24 h, mismo día hábil, ensayo T28). Solicitante aprueba MVP y designa aprobación formal antes de T29. |
 | PD-05 | Modelo Firestore, consultas, índices, límites y coordinación transaccional | **Prototipo T05 probado en emulador** (3 guardas mínimas por recurso, auditoría atómica y activación idempotente por cohorte); índices finales a validar en T06–T19. |
-| PD-06 | Representación del módulo y alcance del calendario sabatino | **Módulo resuelto en T03:** entero explícito `0 | 1 | 2`. Queda diferido a T14 definir si las fechas de módulos 1 y 2 son comunes al cuatrimestre o varían por carrera/grupo. |
+| PD-06 | Representación del módulo y alcance del calendario sabatino | **Resuelto:** módulo entero explícito `0 | 1 | 2` (T03) y fechas específicas de módulos 1 y 2 definidas a nivel de ciclo escolar (iguales por defecto en el cuatrimestre) con opción de fecha personalizada para casos especiales (a implementar en T14–T16). |
 | PD-07 | Arquitectura propone guardas por ciclo; reglas de carga/cruces no se particionan por ciclo | **Resuelto en T05:** las guardas del prototipo no se dividen por ciclo y conservan paridad RN-04. |
 | PD-08 | Grupo `active` heredado frente a estados destino | **Resuelto en T03:** contrato destino `draft | review | final | archived` (sin `active` heredado al iniciar con datos nuevos). |
 | PD-09 | CSV anterior sin sesión devuelve encabezados | El destino debe denegar explícitamente; no confundir paridad observada con requisito de seguridad |

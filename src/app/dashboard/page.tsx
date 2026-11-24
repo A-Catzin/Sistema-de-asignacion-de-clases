@@ -63,10 +63,16 @@ export default async function DashboardPage() {
               .
             </p>
             <p className="text-sm text-muted">
-              Siguiente etapa: <strong>T11</strong> (auditoría duradera) y luego catálogos base
-              (<strong>T12–T15</strong>).
+              Siguiente etapa: <strong>T13–T15</strong> (docentes/carga, aulas/horarios y
+              ciclos/grupos base).
             </p>
             <div className="flex flex-wrap items-center gap-3 pt-2">
+              <Link
+                href="/carreras"
+                className="focus-ring rounded-md border border-line bg-panel px-3 py-1.5 text-xs font-semibold text-ink hover:bg-brandSoft"
+              >
+                Oferta académica
+              </Link>
               {user.role === "admin" ? (
                 <Link
                   href="/admin"

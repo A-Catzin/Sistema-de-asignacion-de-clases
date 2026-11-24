@@ -8,6 +8,7 @@ export type AuditEventType =
   | "career.upsert"
   | "subject.upsert"
   | "subject.requirements.replace"
+  | "teacher_profile.upsert"
   | "teacher.upsert"
   | "teacher.profiles.replace"
   | "classroom.upsert"
@@ -33,6 +34,7 @@ export const AUDIT_ENTITY_TYPES = [
   "coordinator_scope",
   "career",
   "subject",
+  "teacher_profile",
   "teacher",
   "classroom",
   "schedule_block",
