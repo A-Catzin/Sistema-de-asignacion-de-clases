@@ -68,6 +68,7 @@ En dos terminales desde la raíz:
    - `http://127.0.0.1:3000/dashboard` — panel protegido por sesión verificada en servidor.
    - `http://127.0.0.1:3000/carreras` — oferta académica (perfiles docentes, carreras y materias por ámbito).
    - `http://127.0.0.1:3000/docentes` — docentes, perfiles disponibles, coordinador responsable, tope de horas y carga activa desglosada.
+   - `http://127.0.0.1:3000/aulas` — aulas, plantillas horarias por modalidad/turno y bloques base o personalizados con módulos `0|1|2`.
    - `http://127.0.0.1:3000/admin` — aprovisionamiento administrativo y control de cuentas (solo `admin` activo; consulta de auditoría en `/api/admin/audit`).
 
 ## Comandos de calidad y pruebas
@@ -81,6 +82,7 @@ npm run test:auth:emulator         # integración Auth/Sesión/CSRF contra emula
 npm run test:provisioning:emulator # integración aprovisionamiento admin, ámbito y RBAC contra emuladores
 npm run test:academic:emulator     # integración oferta académica, requisitos, ámbito y auditoría contra emuladores
 npm run test:teachers:emulator     # integración docentes, perfiles, tope de horas, desglose AC31 y auditoría contra emuladores
+npm run test:schedules:emulator    # integración aulas, plantillas, bloques base/personalizados, módulos 0|1|2 y auditoría contra emuladores
 ```
 
 Para las pruebas aisladas del prototipo de integridad/ciclos (`prototypes/assignment-integrity/`), consultar [README del prototipo](../prototypes/assignment-integrity/README.md).

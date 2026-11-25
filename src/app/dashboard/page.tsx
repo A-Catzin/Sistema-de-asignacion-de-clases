@@ -63,8 +63,8 @@ export default async function DashboardPage() {
               .
             </p>
             <p className="text-sm text-muted">
-              Siguiente etapa: <strong>T14–T15</strong> (aulas/bloques/fechas de módulos y
-              ciclos/grupos base).
+              Siguiente etapa: <strong>T15</strong> (ciclos escolares con fechas de módulos 1 y 2,
+              grupos y materias del grupo).
             </p>
             <div className="flex flex-wrap items-center gap-3 pt-2">
               <Link
@@ -78,6 +78,12 @@ export default async function DashboardPage() {
                 className="focus-ring rounded-md border border-line bg-panel px-3 py-1.5 text-xs font-semibold text-ink hover:bg-brandSoft"
               >
                 Docentes y carga
+              </Link>
+              <Link
+                href="/aulas"
+                className="focus-ring rounded-md border border-line bg-panel px-3 py-1.5 text-xs font-semibold text-ink hover:bg-brandSoft"
+              >
+                Aulas y bloques
               </Link>
               {user.role === "admin" ? (
                 <Link

@@ -1,7 +1,12 @@
 import type { UserRole } from "@/lib/auth/session-policy";
 
 export type GroupStatus = "draft" | "review" | "final" | "archived";
-export type Modality = "escolarizado" | "modular" | "virtual_modular" | "maestrias";
+export type Modality =
+  | "escolarizado"
+  | "modular"
+  | "virtual_modular"
+  | "maestrias"
+  | "sabatino";
 export type Shift = "matutino" | "vespertino";
 
 export type ActorScope = Readonly<{

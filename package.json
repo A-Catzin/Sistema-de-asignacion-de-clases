@@ -13,6 +13,7 @@
     "test:provisioning:emulator": "node tests/integration/provisioning-and-scope.integration.ts",
     "test:academic:emulator": "node tests/integration/academic-offer.integration.ts",
     "test:teachers:emulator": "node tests/integration/teachers-and-load.integration.ts",
+    "test:schedules:emulator": "node tests/integration/schedules-and-classrooms.integration.ts",
     "emulators:start": "firebase emulators:start --only auth,firestore --project demo-sistema-asignacion"
   },
   "dependencies": {

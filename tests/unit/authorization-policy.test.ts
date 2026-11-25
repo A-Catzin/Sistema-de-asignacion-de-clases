@@ -82,6 +82,8 @@ describe("T10 role and scope authorization policy", () => {
     expect(validateModalityShift("virtual_modular", "vespertino")).toBe(false);
     expect(validateModalityShift("maestrias", "vespertino")).toBe(true);
     expect(validateModalityShift("maestrias", "matutino")).toBe(false);
+    expect(validateModalityShift("sabatino", "matutino")).toBe(true);
+    expect(validateModalityShift("sabatino", "vespertino")).toBe(true);
 
     expect(
       canUseScheduleBlock(

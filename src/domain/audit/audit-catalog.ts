@@ -12,6 +12,7 @@ export type AuditEventType =
   | "teacher.upsert"
   | "teacher.profiles.replace"
   | "classroom.upsert"
+  | "schedule_template.upsert"
   | "schedule_block.upsert"
   | "cycle.upsert"
   | "cycle.activate"
@@ -37,6 +38,7 @@ export const AUDIT_ENTITY_TYPES = [
   "teacher_profile",
   "teacher",
   "classroom",
+  "schedule_template",
   "schedule_block",
   "academic_cycle",
   "group",
